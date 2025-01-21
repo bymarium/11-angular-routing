@@ -53,7 +53,7 @@
     <div class="right-side">
       <div class="pill-group">
         @for (item of [
-          { title: 'Login', link: '/login' },
+          { title: 'Login', link: ['login', 5, 10] },
           { title: 'A', link: '/layout' }
         ]; track item.title) {
           <a
