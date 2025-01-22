@@ -1,2 +1,39 @@
-<h1>HOLA LOGIN</h1>
-<button (click)="handle()">Dame click</button>
+<form [formGroup]="loginForm" class="login" (ngSubmit)="submit()">
+  <h3 class="login__title">Iniciar sesión</h3>
+  <label class="login__label">
+    <span class="login__text">Correo</span>
+    <input class="login__input" type="email" formControlName="email">
+  </label>
+  <label class="login__label">
+    <span class="login__text">Contraseña</span>
+    <input class="login__input" type="password" name="password" formControlName="password">
+  </label>
+
+  <fieldset class="login__section" formGroupName="address">
+    <label class="login__label">
+      <span class="login__text">Calle</span>
+      <input class="login__input" type="text" formControlName="street">
+    </label>
+    <label class="login__label">
+      <span class="login__text">Número</span>
+      <input class="login__input" type="number" name="number" formControlName="number">
+    </label>
+    <label class="login__label">
+      <span class="login__text">Código postal</span>
+      <input class="login__input" type="number" name="zipCode" formControlName="zipCode">
+    </label>
+  </fieldset>
+
+  <fieldset class="login__section" formArrayName="tags">
+    <h3 class="login__title">Tags</h3>
+    @for (control of tags.controls; track $index) {
+      <label class="login__label login__label--row">
+        <input class="login__input" type="text" [name]="control.value.index" [formControlName]="$index">
+        <!-- <span (click)="removeTag(control.value.index)">X</span> -->
+      </label>
+    }
+    <button type="button" class="login__button login__button--rounded" (click)="addTag()">Añadir tag</button>
+  </fieldset>
+
+  <button class="login__button">Enviar</button>
+</form>
