@@ -1,0 +1,18 @@
+.layout {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid: 
+    "aside body" auto
+    "aside footer" 1fr
+    / 1fr 5fr;
+    gap: 10px;
+}
+
+.aside {grid-area: aside;}
+.body {grid-area: body;}
+.footer {grid-area: footer;}
+
+.aside, .body, .footer {
+  border: 1px solid black;
+}
