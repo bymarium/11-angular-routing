@@ -1,11 +1,9 @@
 .aside {
-  min-height: calc(100vh - 30px);
+  min-height: 100%;
   width: 300px;
-  margin: 15px;
   padding: 10px;
   background-color: #064747;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-  border-radius: 20px;
+  box-shadow: 5px 0 20px rgba(0, 41, 27, 0.5);
 
   &__header {
     display: flex;

@@ -1,0 +1,10 @@
+.footer {
+  width: calc(100%);
+  background-color: #06474731;
+
+  &__copyright {
+    font-size: 18px;
+    text-align: center;
+    font-weight: 600;
+  }
+}
