@@ -2,12 +2,14 @@
 
 .footer {
   width: calc(100%);
-  padding: 10px;
+  padding: 15px;
   background-color: variables.$green-transparent;
+  box-shadow: variables.$box-shadow;
 
   &__copyright {
-    font-size: 16px;
+    font-size: 15px;
     text-align: center;
-    font-weight: 600;
+    font-weight: 700;
+    color: variables.$green;
   }
 }

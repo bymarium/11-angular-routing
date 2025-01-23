@@ -10,27 +10,27 @@ import { ItemComponent } from './item/item.component';
 export class AsideComponent {
   public items = [
     {
-      link: 'menus',
+      link: '/menus',
       icon: 'menu',
       title: 'Menus'
     },
     {
-      link: 'dishes',
+      link: '/dishes',
       icon: 'dish',
       title: 'Platos'
     },
     {
-      link: 'orders',
+      link: '/orders',
       icon: 'order',
       title: 'Pedidos'
     },
     {
-      link: 'clients',
+      link: '/clients',
       icon: 'client',
       title: 'Clientes'
     },
     {
-      link: 'about',
+      link: '/about',
       icon: 'about',
       title: 'Nosotros'
     }

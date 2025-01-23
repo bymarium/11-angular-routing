@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from '../layout/layout.component';
-import { adminGuard } from './admin.guard';
-import { ItemComponent } from '../aside/item/item.component';
-import { AsideComponent } from '../aside/aside.component';
+import { BodyComponent } from '../body/body.component';
 
 export const routes: Routes = [
   {
@@ -10,24 +8,58 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
       {
-        path: 'menus',
-        component: AsideComponent
-      },
+        path: '',
+        component: BodyComponent,
+      }
+    ]
+  },
+  {
+    path: 'menus',
+    component: LayoutComponent,
+    children: [
       {
-        path: 'dishes',
-        component: AsideComponent
-      },
+        path: '',
+        component: BodyComponent,
+      }
+    ]
+  },
+  {
+    path: 'dishes',
+    component: LayoutComponent,
+    children: [
       {
-        path: 'orders',
-        component: AsideComponent
-      },
+        path: '',
+        component: LayoutComponent,
+      }
+    ]
+  },
+  {
+    path: 'orders',
+    component: LayoutComponent,
+    children: [
       {
-        path: 'clients',
-        component: LayoutComponent
-      },
+        path: '',
+        component: LayoutComponent,
+      }
+    ]
+  },
+  {
+    path: 'clients',
+    component: LayoutComponent,
+    children: [
       {
-        path: 'about',
-        component: ItemComponent
+        path: '',
+        component: LayoutComponent,
+      }
+    ]
+  },
+  {
+    path: 'about',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '',
+        component: LayoutComponent,
       }
     ]
   }
