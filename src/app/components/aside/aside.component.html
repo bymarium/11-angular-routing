@@ -1,0 +1,11 @@
+<aside class="aside">
+  <div class="aside__header">
+    <img class="aside__logo" src="2.png" alt="logo">
+    <h3 class="aside__title">Sabores encantados</h3>
+  </div>
+  <ul class="aside__menu">
+    @for (item of items; track $index) {
+      <app-item [link]="item.link" [icon]="item.icon" [title]="item.title"></app-item>
+    }
+  </ul>
+</aside>

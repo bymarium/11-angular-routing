@@ -1,0 +1,39 @@
+.aside__item {
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.685);
+  transition: color 1s ease;
+
+  svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  &:hover {
+    color: white;
+
+    &::before {
+      content: "";
+      width: 5px;
+      height: 30px;
+      border-radius: 9px;
+      background-color: white;
+    }
+  }    
+}
+
+.active {
+  color: rgb(226, 150, 179);
+
+  &::before {
+    content: "";
+    width: 5px;
+    height: 30px;
+    border-radius: 9px;
+    background-color: rgb(226, 150, 179);
+  }
+}

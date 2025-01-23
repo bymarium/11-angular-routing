@@ -1,0 +1,8 @@
+<li>
+  <a class="aside__item" [routerLink]="link()" [routerLinkActive]="'active'">
+    <svg>
+      <use [attr.href]="'icons.svg#' + icon()"></use>
+    </svg>
+    <span>{{title()}}</span>
+  </a>
+</li>
