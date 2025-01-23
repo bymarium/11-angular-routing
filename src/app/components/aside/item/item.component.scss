@@ -1,10 +1,13 @@
+@use "../../../ui/styles/variables.scss" as variables;
+@use "../../../ui/styles/mixins.scss" as mixins;
+
 .aside__item {
   text-decoration: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   font-size: 18px;
-  color: rgba(255, 255, 255, 0.685);
+  color: variables.$white-transparent;
   transition: color 1s ease;
 
   svg {
@@ -14,30 +17,26 @@
   }
 
   &:hover {
-    color: white;
+    color: variables.$white;
     margin: 0;
 
     &::before {
-      background-color: #fff;
+      background-color: variables.$white;
     }
   }
 
   &::before {
     content: "";
-    width: 5px;
-    height: 30px;
-    border-radius: 8px;
+    @include mixins.radius(5px, 30px, 8px);
   }
 }
 
 .active {
-  color: rgb(226, 150, 179);
+  color: variables.$white;
 
   &::before {
     content: "";
-    width: 5px;
-    height: 30px;
-    border-radius: 9px;
-    background-color: rgb(226, 150, 179);
+    @include mixins.radius(5px, 30px, 8px);
+    background-color: variables.$white;
   }
 }

@@ -1,9 +1,11 @@
+@use "../../ui/styles/variables.scss" as variables;
+
 .aside {
   min-height: 100%;
   width: 300px;
   padding: 10px;
-  background-color: #064747;
-  box-shadow: 5px 0 20px rgba(0, 41, 27, 0.5);
+  background-color: variables.$green;
+  box-shadow: variables.$box-shadow;
 
   &__header {
     display: flex;
@@ -19,7 +21,7 @@
     font-size: 20px;
     font-weight: 900;
     text-transform: uppercase;
-    background: radial-gradient(86% 86% at 6% 9%, #fa7de9 0%, #ffb6c2 50%, #c7ffec 100%);
+    background: variables.$radial-gradient;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }

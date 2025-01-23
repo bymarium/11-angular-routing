@@ -1,3 +1,5 @@
+@use "../../ui/styles/variables.scss" as variables;
+
 .layout {
   width: calc(100% - 30px);
   min-height: calc(100vh - 30px);
@@ -7,7 +9,7 @@
     "aside footer" auto 
     / 1fr 5fr;
   margin: 15px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  box-shadow: variables.$box-shadow;
   border-radius: 20px;
   overflow: hidden;
 }
