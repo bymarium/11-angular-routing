@@ -2,7 +2,7 @@
 
 .layout {
   width: calc(100% - 30px);
-  min-height: calc(100vh - 30px);
+  height: calc(100vh - 30px);
   display: grid;
   grid:
     "aside body" 1fr 
@@ -20,6 +20,21 @@
 
 .body {
   grid-area: body;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+
+  &::-webkit-scrollbar-thumb {
+    background-color: variables.$green; /* Color del pulgar (parte de la barra que se mueve) */
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none; 
+  }
 }
 
 .footer {

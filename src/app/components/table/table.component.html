@@ -1,0 +1,41 @@
+<section class="data">
+  <h1 class="data__title">Lista de {{title()}}</h1>
+  <a class="data__button">
+    <span>Agregar</span>
+    <svg>
+      <use href="icons.svg#add"></use>
+    </svg>
+  </a>
+
+  <table class="data__table">
+    <thead>
+      <tr>
+        <th>Acciones</th>
+        @for (column of columns(); track $index) {
+        <th>{{column.header}}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (data of data(); track $index) {
+      <tr class="data__table-row">
+        <td>
+          <a class="data__table-action data__table-action--trash">
+            <svg>
+              <use href="icons.svg#trash"></use>
+            </svg>
+          </a>
+          <a class="data__table-action data__table-action--edit">
+            <svg>
+              <use href="icons.svg#edit"></use>
+            </svg>
+          </a>
+        </td>
+        @for (column of columns(); track $index) {
+        <td>{{data[column.field]}}</td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
+</section>

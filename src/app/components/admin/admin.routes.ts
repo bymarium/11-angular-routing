@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LayoutComponent } from '../layout/layout.component';
 import { BodyComponent } from '../body/body.component';
+import { FormComponent } from '../form/form.component';
 
 export const routes: Routes = [
   {
@@ -10,12 +11,34 @@ export const routes: Routes = [
       {
         path: '',
         component: BodyComponent,
+        children: [
+          {
+            path: 'menus',
+            component: FormComponent,
+          },
+          {
+            path: 'dishes',
+            component: FormComponent,
+          },
+          {
+            path: 'orders',
+            component: FormComponent,
+          },
+          {
+            path: 'clients',
+            component: FormComponent,
+          },
+          {
+            path: 'about',
+            component: FormComponent,
+          }
+        ]
       }
     ]
   },
   {
     path: 'menus',
-    component: LayoutComponent,
+    component: BodyComponent,
     children: [
       {
         path: '',
@@ -29,7 +52,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: LayoutComponent,
+        component: BodyComponent,
       }
     ]
   },
@@ -39,7 +62,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: LayoutComponent,
+        component: BodyComponent,
       }
     ]
   },
@@ -49,7 +72,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: LayoutComponent,
+        component: BodyComponent,
       }
     ]
   },
@@ -59,7 +82,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: LayoutComponent,
+        component: BodyComponent,
       }
     ]
   }
