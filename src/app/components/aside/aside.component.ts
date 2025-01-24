@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ItemComponent } from './item/item.component';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-aside',
-  imports: [ItemComponent ],
+  imports: [ItemComponent, FooterComponent],
   templateUrl: './aside.component.html',
   styleUrl: './aside.component.scss'
 })

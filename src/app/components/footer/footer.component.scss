@@ -1,15 +1,14 @@
 @use "../../ui/styles/variables.scss" as variables;
 
 .footer {
-  width: calc(100%);
+  width: 100%;
+  margin-top: 500px;
   padding: 15px;
-  background-color: variables.$white-20;
-  box-shadow: variables.$box-shadow;
 
   &__copyright {
-    font-size: 15px;
+    font-size: 14px;
     text-align: center;
-    font-weight: 700;
-    color: variables.$green;
+    font-weight: 500;
+    color: variables.$white;
   }
 }
