@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
 import { FormComponent } from "../form/form.component";
 import { CreateService } from '../../services/client/create.service';
 import { GetClientsService } from '../../services/client/get-clients.service';
@@ -22,9 +22,9 @@ export class ClientComponent implements OnInit {
   private updateClient = inject(UpdateService);
   private formBuilder = inject(FormBuilder);
 
-  public message!: string;
-  public action: string = 'Crear';
-  public title: string = 'Crear Cliente';
+  public message: string = '';
+  public action: string = '';
+  public title: string = '';
 
   public users: IClients[] = [];
   public columns = [
@@ -41,27 +41,33 @@ export class ClientComponent implements OnInit {
   }
 
   public form: FormGroup = this.formBuilder.group({
+    id: [null],
     name: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]]
   });
 
+  
+  ngOnInit(): void {
+    this.submit();
+    this.getClientsTable();
+  }
+
   create(): void {
     this.action = 'Crear';
     this.title = 'Crear Cliente';
+
     if (this.form.valid) {
       this.createClient.execute(this.form.getRawValue() as unknown as IClient)
         .pipe(
           tap(result => {
             this.message = result.message;
-            this.getClientsTable()
+            this.getClientsTable();
+            this.action = 'Crear';
+            this.title = 'Crear Cliente';
           })
         ).subscribe(console.log);
     }
-  }
-
-  ngOnInit(): void {
-    this.getClientsTable();
   }
 
   getClientsTable(): void {
@@ -78,25 +84,42 @@ export class ClientComponent implements OnInit {
       ).subscribe();
   }
 
-  updateClientById(clientId: number): void {
+  updateById(clientId: number): void {
+    this.message = '';
     this.action = 'Actualizar';
     this.title = 'Actualizar Cliente';
     const client = this.users.find(user => user.id === clientId);
 
-    this.form = this.formBuilder.group({
-      name: [client?.name, [Validators.required]],
-      lastName: [client?.lastName, [Validators.required]],
-      email: [client?.email, [Validators.required, Validators.email]]
+    this.form.patchValue({
+      id: clientId,
+      name: client?.name,
+      lastName: client?.lastName,
+      email: client?.email
     });
+  }
+
+  update(clientId: number): void {
 
     if (this.form.valid) {
       this.updateClient.execute(clientId, this.form.getRawValue() as unknown as IClient)
         .pipe(
           tap(result => {
             this.message = result.message;
-            this.getClientsTable()
+            this.getClientsTable();
+            this.action = 'Actualizar';
+            this.title = 'Actualizar Cliente';
           })
-        ).subscribe();
+        ).subscribe(console.log);
+    }
+  }
+
+  submit(): void {
+    console.log(this.form.value.id);
+    if (this.form.value.id === null) {
+      this.create();
+    }
+    else {
+      this.update(this.form.value.id);
     }
   }
 }

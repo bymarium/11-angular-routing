@@ -1,2 +1,2 @@
-<app-form [form]="form" [message]="message" [submit]="create" [title]="title" [action]="action" [open]="isOpen" (clickClose)="openModal($event)"></app-form>
-<app-table [title]="'Clientes'" [data]="users" [columns]="columns" (openModal)="openModal($event)" (idDelete)="deleteClientById($event)" (idUpdate)="updateClientById($event)"></app-table>
+<app-form [form]="form" [message]="message" (submit)="submit()" [title]="title" [action]="action" [open]="isOpen" (clickClose)="openModal($event)"></app-form>
+<app-table [title]="'Clientes'" [data]="users" [columns]="columns" (openModal)="openModal($event)" (idDelete)="deleteClientById($event)" (idUpdate)="updateById($event)"></app-table>

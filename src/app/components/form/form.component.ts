@@ -15,7 +15,7 @@ export class FormComponent {
   public action = input.required<string>();
   public open = input.required<boolean>();
   public clickClose = output<boolean>();
-  public submit = input.required<() => void>();
+  public submit = output<() => void>();
 
   private modal = document.querySelector('dialog') as HTMLDialogElement;
 

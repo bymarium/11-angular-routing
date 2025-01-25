@@ -11,7 +11,7 @@ export class UpdateService {
   private http = inject(HttpClient);
 
   execute(clientId: number, client: IClient): Observable<IResponse> {
-    return this.http.post<IResponse>('http://localhost:8080/api/clients' + clientId, client, { headers: this.getHeaders() });
+    return this.http.put<IResponse>('http://localhost:8080/api/clients/' + clientId, client, { headers: this.getHeaders() });
   }
 
   private getHeaders() {
