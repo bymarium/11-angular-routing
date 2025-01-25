@@ -1,6 +1,6 @@
 <section class="data">
   <h1 class="data__title">Lista de {{title()}}</h1>
-  <a class="data__button">
+  <a class="data__button" (click)="openForm()">
     <span>Agregar</span>
     <svg>
       <use href="icons.svg#add"></use>
@@ -20,12 +20,12 @@
       @for (data of data(); track $index) {
       <tr class="data__table-row">
         <td>
-          <a class="data__table-action data__table-action--trash">
+          <a class="data__table-action data__table-action--trash" (click)="sendDelete(data.id)">
             <svg>
               <use href="icons.svg#trash"></use>
             </svg>
           </a>
-          <a class="data__table-action data__table-action--edit">
+          <a class="data__table-action data__table-action--edit" (click)="sendUpdate(data.id)" (click)="openForm()">
             <svg>
               <use href="icons.svg#edit"></use>
             </svg>

@@ -3,3 +3,18 @@
   height: $height;
   border-radius: $radius;
 }
+
+@mixin flex($direction: row, $justify-content: flex-start, $align-items: stretch, $gap: 0px) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+  gap: $gap;
+}
+
+@mixin fixed($padding, $z-index) {
+  position: fixed;
+  padding: $padding;
+  z-index: $z-index;
+}
+

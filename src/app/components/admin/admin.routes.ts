@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LayoutComponent } from '../layout/layout.component';
 import { BodyComponent } from '../body/body.component';
 import { FormComponent } from '../form/form.component';
+import { ClientComponent } from '../client/client.component';
 
 export const routes: Routes = [
   {
@@ -26,7 +27,7 @@ export const routes: Routes = [
           },
           {
             path: 'clients',
-            component: FormComponent,
+            component: ClientComponent,
           },
           {
             path: 'about',
