@@ -1,12 +1,13 @@
-import { Component, inject, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
-import { FormComponent } from "../form/form.component";
-import { CreateService } from '../../services/client/create.service';
-import { GetClientsService } from '../../services/client/get-clients.service';
-import { DeleteService } from '../../services/client/delete.service';
-import { UpdateService } from '../../services/client/update.service';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IClient, IClients } from '../../interfaces/client.interface';
 import { tap } from 'rxjs';
+import { IClient, IClients } from '../../interfaces/client.interface';
+import { IResponse } from '../../interfaces/response.interface';
+import { CreateService } from '../../services/create.service';
+import { DeleteService } from '../../services/delete.service';
+import { GetAllService } from '../../services/get-all.service';
+import { UpdateService } from '../../services/update.service';
+import { FormComponent } from "../form/form.component";
 import { TableComponent } from '../table/table.component';
 
 @Component({
@@ -17,7 +18,7 @@ import { TableComponent } from '../table/table.component';
 })
 export class ClientComponent implements OnInit {
   private createClient = inject(CreateService);
-  private getClients = inject(GetClientsService);
+  private getClients = inject(GetAllService);
   private deleteClient = inject(DeleteService);
   private updateClient = inject(UpdateService);
   private formBuilder = inject(FormBuilder);
@@ -25,6 +26,8 @@ export class ClientComponent implements OnInit {
   public message: string = '';
   public action: string = '';
   public title: string = '';
+
+  private url: string = 'http://localhost:8080/api/clients';
 
   public users: IClients[] = [];
   public columns = [
@@ -58,7 +61,7 @@ export class ClientComponent implements OnInit {
     this.title = 'Crear Cliente';
 
     if (this.form.valid) {
-      this.createClient.execute(this.form.getRawValue() as unknown as IClient)
+      this.createClient.execute<IResponse>(this.url, this.form.getRawValue() as unknown as IClient)
         .pipe(
           tap(result => {
             this.message = result.message;
@@ -71,14 +74,14 @@ export class ClientComponent implements OnInit {
   }
 
   getClientsTable(): void {
-    this.getClients.execute()
+    this.getClients.execute<IClients[]>(this.url)
       .pipe(
         tap(result => this.users = result)
       ).subscribe();
   }
 
   deleteClientById(clientId: number): void {
-    this.deleteClient.execute(clientId)
+    this.deleteClient.execute<IResponse>(this.url + "/" + clientId)
       .pipe(
         tap(result => this.getClientsTable())
       ).subscribe();
@@ -99,9 +102,8 @@ export class ClientComponent implements OnInit {
   }
 
   update(clientId: number): void {
-
     if (this.form.valid) {
-      this.updateClient.execute(clientId, this.form.getRawValue() as unknown as IClient)
+      this.updateClient.execute<IResponse>(this.url + "/" + clientId, this.form.getRawValue() as unknown as IClient)
         .pipe(
           tap(result => {
             this.message = result.message;

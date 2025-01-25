@@ -1,17 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IResponse } from '../../interfaces/response.interface';
-import { IClients } from '../../interfaces/client.interface';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GetClientsService {
+export class UpdateService {
   private http = inject(HttpClient);
 
-  execute(): Observable<IClients[]> {
-    return this.http.get<IClients[]>('http://localhost:8080/api/clients', { headers: this.getHeaders() });
+  execute<T>(url: string, object: Object): Observable<T> {
+    return this.http.put<T>(url, object, { headers: this.getHeaders() });
   }
 
   private getHeaders() {
