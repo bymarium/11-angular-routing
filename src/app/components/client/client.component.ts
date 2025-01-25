@@ -9,6 +9,7 @@ import { GetAllService } from '../../services/get-all.service';
 import { UpdateService } from '../../services/update.service';
 import { FormComponent } from "../form/form.component";
 import { TableComponent } from '../table/table.component';
+import { IControls } from '../../interfaces/controls.interface';
 
 @Component({
   selector: 'app-client',
@@ -47,8 +48,20 @@ export class ClientComponent implements OnInit {
     id: [null],
     name: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]]
+    email: ['', [Validators.required, Validators.email]],
+    userType: ['', [Validators.required]],
+    password: ['', [Validators.required]],
+    confirmPassword: ['', [Validators.required]]
   });
+
+  public controls: IControls[] = [
+    {text: 'Nombre', type: 'text', controlName: 'name'},
+    {text: 'Apellido', type: 'text', controlName: 'lastName'},
+    {text: 'Correo', type: 'email', controlName: 'email'},
+    {text: 'Tipo de Usuario', type: 'text', controlName: 'userType'},
+    {text: 'Contraseña', type: 'password', controlName: 'password'},
+    {text: 'Confirmar Contraseña', type: 'password', controlName: 'confirmPassword'}
+  ];
 
   
   ngOnInit(): void {

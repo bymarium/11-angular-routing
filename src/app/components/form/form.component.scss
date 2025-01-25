@@ -25,12 +25,32 @@
     .form {
       margin: 0 auto;
       width: 500px;
-      height: auto;
+      height: 60vh;
       padding: 50px;
       border-radius: 10px;
       display: flex;
       flex-direction: column;
       gap: 30px;
+
+      &__inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar {
+          width: 8px;
+        }
+      
+        &::-webkit-scrollbar-thumb {
+          background-color: variables.$green;
+          border-radius: 10px;
+        }
+      
+        &::-webkit-scrollbar-button {
+          display: none; 
+        }
+      }
     
       &__title {
         font-size: 30px;
@@ -38,34 +58,12 @@
         color: variables.$green;
       }
     
-      &__label {
-        color: variables.$green;
-        font-weight: 600;
-        font-size: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    
-        &--row {
-          flex-direction: row;
-          align-items: center;
-    
-          span {
-            cursor: pointer;
-          }
-        }
-      }
-    
-      &__input,
       &__button {
         border-radius: 5px;
         border: none;
         outline: none;
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
         padding: 10px;
-      }
-    
-      &__button {
         cursor: pointer;
         background-color: #003437;
         color: variables.$white;
