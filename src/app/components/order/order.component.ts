@@ -13,10 +13,12 @@ import { IDishes } from '../../interfaces/dish.interface';
 import { FormComponent } from '../form/form.component';
 import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
+import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-order',
   imports: [FormComponent, ModalComponent, TableComponent],
+  providers: [CurrencyPipe, DatePipe, TitleCasePipe],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss'
 })
@@ -28,36 +30,38 @@ export class OrderComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private getClients = inject(GetAllService);
   private getDishes = inject(GetAllService);
+  private currencyPipe = inject(CurrencyPipe);
+  private datePipe = inject(DatePipe);
+  private titleCasePipe = inject(TitleCasePipe);
 
   public isOpen: boolean = false;
   public message: string = '';
-  public action: string = '';
-  public title: string = '';
+  public action: string = 'Crear';
+  public title: string = 'Crear Pedido';
   public orders: IOrders[] = [];
   public columns = [
     { field: 'date', header: 'Fecha' },
     { field: 'totalPrice', header: 'Precio Total' },
-    { field: 'quantity', header: 'Cantidad de Platos' },
+    { field: 'dishesQuantity', header: 'Cantidad de Platos' },
     { field: 'client', header: 'Cliente' },
     { field: 'dowloadDetails', header: 'Descrgar detalles' }
   ];
   public form: FormGroup = this.formBuilder.group({
     id: [null],
     clientId: ['', [Validators.required]],
-    tags: this.formBuilder.array([this.formBuilder.control(['', Validators.required])])
+    orderDetails: this.formBuilder.array([this.formBuilder.group({
+      dishId: ['', [Validators.required]],
+      quantity: ['', [Validators.required, Validators.min(0)]]
+    })])
   });
+
   private clientOptions: IOptions[] = [];
-  private dishOptions: IOptions[] = [];
+  public dishOptions: IOptions[] = [];
   public controls: IControls[] = [
     {
       type: 'select', text: 'Cliente', controlName: 'clientId',
       options: []
-    },
-    {
-      type: 'select', text: 'Plato', controlName: 'dishId',
-      options: []
-    },
-    { type: 'input', text: 'Cantidad', inputType: 'number', controlName: 'quantity' }
+    }
   ];
   private url: string = 'http://localhost:8080/api/orders';
 
@@ -67,7 +71,8 @@ export class OrderComponent implements OnInit {
 
     this.getClients.execute<IClients[]>('http://localhost:8080/api/clients')
       .pipe(
-        map(result => result.map(client => ({ value: client.id, name: client.name })))
+        map(result => result.map(client => ({ value: client.id, name: client.name }))),
+        map(result => result.map(client => ({ ...client, name: this.titleCasePipe.transform(client.name) })))
       )
       .subscribe(options => {
         this.clientOptions = options;
@@ -76,7 +81,8 @@ export class OrderComponent implements OnInit {
 
     this.getDishes.execute<IDishes[]>('http://localhost:8080/api/dishes')
       .pipe(
-        map(result => result.map(dish => ({ value: dish.id, name: dish.name })))
+        map(result => result.map(dish => ({ value: dish.id, name: dish.name }))),
+        map(result => result.map(dish => ({ ...dish, name: this.titleCasePipe.transform(dish.name) })))
       )
       .subscribe(options => {
         this.dishOptions = options;
@@ -91,7 +97,13 @@ export class OrderComponent implements OnInit {
   public getOrdesTable(): void {
     this.getOrders.execute<IOrders[]>(this.url)
       .pipe(
-        tap(result => this.orders = result),
+        map(result => result.map(order => ({
+          ...order, 
+          totalPrice: this.currencyPipe.transform(order.totalPrice, 'COP'), 
+          date: this.datePipe.transform(order.date),
+          dishesQuantity: order.orderDetails.reduce((acc, orderDetail) => acc + orderDetail.quantity, 0)
+        }))),
+        tap(result => this.orders = result)
       ).subscribe();
   }
 
@@ -120,20 +132,18 @@ export class OrderComponent implements OnInit {
   }
 
   private create(): void {
-    this.action = 'Crear';
-    this.title = 'Crear Plato';
-
     if (this.form.valid) {
       this.createOrder.execute<IResponse>(this.url, this.form.getRawValue() as unknown as IOrder)
         .pipe(
           tap(result => {
             this.message = result.message;
             this.getOrdesTable();
-            this.action = 'Crear';
-            this.title = 'Crear Orden';
           }),
           delay(2000),
           finalize(() => {
+            this.message = '';
+            this.getOrdesTable();
+            this.form.reset();
             this.isOpen = false;
           })
         ).subscribe(console.log);
@@ -150,7 +160,7 @@ export class OrderComponent implements OnInit {
             this.message = '';
             this.getOrdesTable();
             this.action = 'Crear';
-            this.title = 'Crear Orden';
+            this.title = 'Crear Pedido';
             this.form.reset();
             this.isOpen = false;
           })

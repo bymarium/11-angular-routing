@@ -30,6 +30,29 @@
     font-size: 30px;
     font-weight: 700;
     color: variables.$green;
+
+    &--dishes {
+      font-size: 22px;
+    }
+  }
+
+  &__section {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  &__dishes {
+    @include mixin.flex(row, center, stretch, 15px);
+    overflow-x: hidden;
+
+    app-input {
+      width: 100px;
+    }
+
+    app-select {
+      width: 100%;
+    }
   }
 
   &__message {
@@ -53,6 +76,23 @@
 
     &:hover {
       background-color: variables.$green-light;
+      transition: background-color 0.3s ease;
+    }
+
+    &--dish {
+      @include mixin.letter(variables.$green, variables.$white, 10px, 5px, 12px, bold);
+    }
+
+    &--cancel {
+      background-color: variables.$red-dark;
+      height: 38px;
+      padding-block: 0;
+      margin-top: 31px;
+
+      &:hover {
+        background-color: variables.$red-light;
+        transition: background-color 0.3s ease;
+      }
     }
   }
 }

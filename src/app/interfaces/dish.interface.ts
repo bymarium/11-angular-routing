@@ -9,7 +9,7 @@ export interface IDishes {
   id: number;
   name: string;
   description: string;
-  price: number;
+  price: number | string | null;
   type: string;
   menuId: number;
 }

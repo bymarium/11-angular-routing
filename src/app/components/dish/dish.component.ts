@@ -13,10 +13,12 @@ import { FormComponent } from '../form/form.component';
 import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
 import { MenuComponent } from '../menu/menu.component';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dish',
   imports: [FormComponent, ModalComponent, TableComponent],
+  providers: [CurrencyPipe],
   templateUrl: './dish.component.html',
   styleUrl: './dish.component.scss'
 })
@@ -27,6 +29,7 @@ export class DishComponent implements OnInit {
   private updateDish = inject(UpdateService);
   private formBuilder = inject(FormBuilder);
   private getMenus = inject(GetAllService);
+  private currencyPipe = inject(CurrencyPipe);
 
   public isOpen: boolean = false;
   public message: string = '';
@@ -80,6 +83,7 @@ export class DishComponent implements OnInit {
   public getDishesTable(): void {
     this.getDishes.execute<IDishes[]>(this.url)
       .pipe(
+        map(result => result.map(dish => ({ ...dish, price: this.currencyPipe.transform(dish.price, 'COP') }))),
         tap(result => this.dishes = result)
       ).subscribe();
   }

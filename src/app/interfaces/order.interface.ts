@@ -16,11 +16,14 @@ export interface IOrderDetails {
   unitPrice: number;
   subTotal: number;
   dish: IDishes;
+  dishId: number;
 }
 
 export interface IOrders {
   id: number;
-  date: Date;
-  totalPrice: number;
+  clientId: number;
+  date: Date | string | null;
+  totalPrice: number | string | null;
   orderDetails: IOrderDetails[];
+  dishesQuantity?: number;
 }
