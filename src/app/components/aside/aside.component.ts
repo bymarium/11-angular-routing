@@ -29,11 +29,6 @@ export class AsideComponent {
       link: '/clients',
       icon: 'client',
       title: 'Clientes'
-    },
-    {
-      link: '/about',
-      icon: 'about',
-      title: 'Nosotros'
     }
   ];
 }

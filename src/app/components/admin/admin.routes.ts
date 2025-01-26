@@ -31,10 +31,6 @@ export const routes: Routes = [
           {
             path: 'clients',
             component: ClientComponent,
-          },
-          {
-            path: 'about',
-            component: FormComponent,
           }
         ]
       }
@@ -72,16 +68,6 @@ export const routes: Routes = [
   },
   {
     path: 'clients',
-    component: LayoutComponent,
-    children: [
-      {
-        path: '',
-        component: BodyComponent,
-      }
-    ]
-  },
-  {
-    path: 'about',
     component: LayoutComponent,
     children: [
       {
