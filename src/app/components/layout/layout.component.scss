@@ -1,8 +1,8 @@
 @use "../../ui/styles/variables.scss" as variables;
+@use "../../ui/styles/mixins.scss" as mixins;
 
 .layout {
-  width: calc(100% - 30px);
-  height: calc(100vh - 30px);
+  @include mixins.radius(calc(100% - 30px), calc(100vh - 30px), 20px);
   display: grid;
   grid:
     "aside body" 1fr 
@@ -10,7 +10,6 @@
     / 1fr 5fr;
   margin: 15px;
   box-shadow: variables.$box-shadow;
-  border-radius: 20px;
   overflow: hidden;
 }
 

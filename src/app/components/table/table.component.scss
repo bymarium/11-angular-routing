@@ -1,21 +1,24 @@
 @use '../../ui/styles/variables.scss' as variables;
+@use '../../ui/styles/mixins.scss' as mixins;
 
 .data {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include mixins.flex(column, center, center, 10px);
 
   &__title {
     text-align: center;
-    font-size: 30px;
+    font-size: 35px;
     font-weight: 700;
   }
 
+  &__header {
+    @include mixins.flex(row, space-between, center, 0);
+    width: 100%;
+  }
+
   &__button {
+    @include mixins.flex(row, flex-start, center, 0);
     width: 150px;
     margin: 20px;
-    display: flex;
-    text-align: center;
     cursor: pointer;
 
     span {
@@ -31,6 +34,7 @@
       span {
         font-size: 22px;
         font-weight: 600;
+        transition: font-size 0.3s ease-in-out;
       }
 
       svg {
@@ -40,7 +44,7 @@
   }
 
   &__table {
-    width: 90%;
+    width: 100%;
     border-collapse: collapse;
     margin: 0 auto;
     font-size: 18px;
@@ -49,7 +53,7 @@
 
     th,
     td {
-      border: 1px solid #ddd;
+      border: 1px solid variables.$white-20;
       padding: 8px;
     }
 
@@ -58,47 +62,44 @@
     }
 
     td:nth-child(1) {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
+      @include mixins.flex(row, center, stretch, 10px);
     }
 
     th {
-      background-color: #026d6d;
-      color: white;
+      background-color: variables.$green-light;
+      color: variables.$white;
     }
 
     tr:nth-child(even) {
-      background-color: #f9f9f9c4;
+      background-color: variables.$white-10;
     }
 
     tr:hover {
-      background-color: #008a8893;
-      color: white;
+      background-color: variables.$green-transparent;
+      color: variables.$white;
     }
   }
 
   &__table-action {
     &--trash {
-      color: #ff5757;
+      color: variables.$red-light;
 
       &:hover {
-        color: #ff0000;
+        color: variables.$red-dark;
       }
     }
 
     &--edit {
-      color: #5676ff;
+      color: variables.$blue-light;
 
       &:hover {
-        color: #0c0eff;
+        color: variables.$blue-dark;
       }
     }
   }
 
   svg {
-    width: 30px;
-    height: 30px;
+    @include mixins.radius(30px, 30px, 0px);
     cursor: pointer;
   }
 }

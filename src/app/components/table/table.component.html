@@ -1,11 +1,13 @@
 <section class="data">
-  <h1 class="data__title">Lista de {{title()}}</h1>
-  <a class="data__button" (click)="openForm()">
-    <span>Agregar</span>
-    <svg>
-      <use href="icons.svg#add"></use>
-    </svg>
-  </a>
+  <header class="data__header">
+    <h1 class="data__title">Lista de {{title()}}</h1>
+    <a class="data__button" (click)="openForm()">
+      <span>Agregar</span>
+      <svg>
+        <use href="icons.svg#add"></use>
+      </svg>
+    </a>
+  </header>
 
   <table class="data__table">
     <thead>

@@ -18,3 +18,11 @@
   z-index: $z-index;
 }
 
+@mixin letter($background-color, $color, $padding, $border-radius, $font-size, $font-weight) {
+  background-color: $background-color;
+  color: $color;
+  padding: $padding;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: $font-weight;
+}

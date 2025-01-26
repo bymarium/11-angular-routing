@@ -2,84 +2,46 @@
 @use "../../ui/styles/variables.scss" as variables;
 
 
-.modal {
-  all: unset;
-  @include mixin.fixed(0, 3);
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  border: none;
-  background-color: #0009;
+.form {
+  @include mixin.flex(column, center, stretch, 30px);
+  @include mixin.radius(500px, 60vh, 10px);
+  margin: 0 auto;
+  padding: 50px;
 
-  &__content {
-    @include mixin.flex(column, center, center, 16px);
-    @include mixin.radius(auto, auto, 20px);
-    @include mixin.fixed(30px 40px, 1);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
-    background-color: variables.$background-color;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  &__inputs {
+    @include mixin.flex(column, flex-start, stretch, 15px);
+    overflow-y: scroll;
 
-    .form {
-      margin: 0 auto;
-      width: 500px;
-      height: 60vh;
-      padding: 50px;
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: variables.$green;
       border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
+    }
 
-      &__inputs {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        overflow-y: scroll;
-
-        &::-webkit-scrollbar {
-          width: 8px;
-        }
-      
-        &::-webkit-scrollbar-thumb {
-          background-color: variables.$green;
-          border-radius: 10px;
-        }
-      
-        &::-webkit-scrollbar-button {
-          display: none; 
-        }
-      }
-    
-      &__title {
-        font-size: 30px;
-        font-weight: 700;
-        color: variables.$green;
-      }
-    
-      &__button {
-        border-radius: 5px;
-        border: none;
-        outline: none;
-        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-        padding: 10px;
-        cursor: pointer;
-        background-color: #003437;
-        color: variables.$white;
-        font-weight: bold;
-        font-size: 20px;
-        transition: all 0.3s ease;
-
-        &:hover {
-          background-color: #026d6d
-        }
-      }
+    &::-webkit-scrollbar-button {
+      display: none;
     }
   }
 
-  &__close {
-    width: 100vw;
-    height: 100vh;
+  &__title {
+    font-size: 30px;
+    font-weight: 700;
+    color: variables.$green;
+  }
+
+  &__button {
+    @include mixin.letter(variables.$green, variables.$white, 10px, 5px, 20px, bold);
+    border: none;
+    outline: none;
+    box-shadow: variables.$box-shadow-lg;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: variables.$green-light;
+    }
   }
 }

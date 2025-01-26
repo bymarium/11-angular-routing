@@ -1,13 +1,17 @@
-<app-form 
-  [form]="form" 
-  [title]="title" 
-  [message]="message" 
-  [action]="action" 
+<app-modal
   [open]="isOpen" 
-  [controls]="controls"
-  (submit)="submit()" 
-  (clickClose)="openModal($event)">
-</app-form>
+  (clickClose)="openModal($event)"
+>
+  <app-form 
+    [form]="form" 
+    [title]="title" 
+    [message]="message" 
+    [action]="action" 
+    [controls]="controls"
+    (submit)="submit()"
+  >
+  </app-form>
+</app-modal>
 
 <app-table 
   [title]="'Clientes'" 
@@ -15,5 +19,5 @@
   [columns]="columns" 
   (openModal)="openModal($event)" 
   (idDelete)="deleteClientById($event)" 
-  (idUpdate)="updateById($event)">
-</app-table>
+  (idUpdate)="updateById($event)"
+></app-table>

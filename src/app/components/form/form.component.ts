@@ -15,23 +15,6 @@ export class FormComponent {
   public title = input<string>();
   public message = input<string>();
   public action = input.required<string>();
-  public open = input.required<boolean>();
   public controls = input.required<IControls[]>();
   public submit = output<() => void>();
-  public clickClose = output<boolean>();
-
-  private modal = document.querySelector('dialog') as HTMLDialogElement;
-
-  public openModal() {
-    if (this.open()) {
-      this.modal.showModal();
-    } 
-    else {
-      this.modal.close();
-    }
-  }
-
-  public closeModal() {
-    this.clickClose.emit(false);
-  }
 }

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { delay, finalize, tap } from 'rxjs';
 import { IClient, IClients } from '../../interfaces/client.interface';
 import { IResponse } from '../../interfaces/response.interface';
 import { CreateService } from '../../services/create.service';
@@ -10,10 +10,11 @@ import { UpdateService } from '../../services/update.service';
 import { FormComponent } from "../form/form.component";
 import { TableComponent } from '../table/table.component';
 import { IControls } from '../../interfaces/controls.interface';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-client',
-  imports: [FormComponent, TableComponent],
+  imports: [FormComponent, ModalComponent, TableComponent],
   templateUrl: './client.component.html',
   styleUrl: './client.component.scss'
 })
@@ -48,19 +49,13 @@ export class ClientComponent implements OnInit {
     id: [null],
     name: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    userType: ['', [Validators.required]],
-    password: ['', [Validators.required]],
-    confirmPassword: ['', [Validators.required]]
+    email: ['', [Validators.required, Validators.email]]
   });
 
   public controls: IControls[] = [
     {text: 'Nombre', type: 'text', controlName: 'name'},
     {text: 'Apellido', type: 'text', controlName: 'lastName'},
-    {text: 'Correo', type: 'email', controlName: 'email'},
-    {text: 'Tipo de Usuario', type: 'text', controlName: 'userType'},
-    {text: 'Contraseña', type: 'password', controlName: 'password'},
-    {text: 'Confirmar Contraseña', type: 'password', controlName: 'confirmPassword'}
+    {text: 'Correo', type: 'email', controlName: 'email'}
   ];
 
   
@@ -118,11 +113,15 @@ export class ClientComponent implements OnInit {
     if (this.form.valid) {
       this.updateClient.execute<IResponse>(this.url + "/" + clientId, this.form.getRawValue() as unknown as IClient)
         .pipe(
-          tap(result => {
-            this.message = result.message;
+          tap(result => this.message = result.message),
+          delay(2000),
+          finalize(() => {
+            this.message = '';
             this.getClientsTable();
-            this.action = 'Actualizar';
-            this.title = 'Actualizar Cliente';
+            this.action = 'Crear';
+            this.title = 'Crear Cliente';
+            this.form.reset();
+            this.isOpen = false;
           })
         ).subscribe(console.log);
     }
