@@ -3,10 +3,11 @@ import { Component, input, output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputComponent } from '../input/input.component';
 import { IControls } from '../../interfaces/controls.interface';
+import { SelectComponent } from '../select/select.component';
 
 @Component({
   selector: 'app-form',
-  imports: [ReactiveFormsModule, CommonModule, InputComponent],
+  imports: [ReactiveFormsModule, CommonModule, InputComponent, SelectComponent],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'
 })

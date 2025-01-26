@@ -50,8 +50,8 @@ export class MenuComponent implements OnInit {
   });
 
   public controls: IControls[] = [
-    {text: 'Nombre', type: 'text', controlName: 'name'},
-    {text: 'Descripcion', type: 'text', controlName: 'description'}
+    {type: 'input', text: 'Nombre', inputType: 'text', controlName: 'name'},
+    {type: 'input', text: 'Descripcion', inputType: 'text', controlName: 'description'}
   ];
 
   

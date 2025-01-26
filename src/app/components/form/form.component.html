@@ -2,8 +2,21 @@
   <h3 class="form__title">{{title()}}</h3>
   <div class="form__inputs">
     @for (control of controls(); track $index) {
-    <app-input [text]="control.text" [type]="control.type" [controlName]="control.controlName"
-      [formGroup]="form()"></app-input>
+      @if (control.type === 'select') {
+        <app-select 
+          [text]="control.text" 
+          [controlName]="control.controlName"
+          [formGroup]="form()"
+          [options]="control.options"
+        ></app-select>
+      } @else {
+        <app-input 
+        [text]="control.text" 
+        [type]="control.type" 
+        [controlName]="control.controlName"
+        [formGroup]="form()"
+      ></app-input>
+      }
     }
   </div>
   <h4>{{message()}}</h4>

@@ -53,9 +53,9 @@ export class ClientComponent implements OnInit {
   });
 
   public controls: IControls[] = [
-    {text: 'Nombre', type: 'text', controlName: 'name'},
-    {text: 'Apellido', type: 'text', controlName: 'lastName'},
-    {text: 'Correo', type: 'email', controlName: 'email'}
+    {type: 'input', text: 'Nombre', inputType: 'text', controlName: 'name'},
+    {type: 'input', text: 'Apellido', inputType: 'text', controlName: 'lastName'},
+    {type: 'input', text: 'Correo', inputType: 'email', controlName: 'email'}
   ];
 
   
