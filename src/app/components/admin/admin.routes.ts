@@ -4,6 +4,7 @@ import { BodyComponent } from '../body/body.component';
 import { FormComponent } from '../form/form.component';
 import { ClientComponent } from '../client/client.component';
 import { MenuComponent } from '../menu/menu.component';
+import { DishComponent } from '../dish/dish.component';
 
 export const routes: Routes = [
   {
@@ -20,7 +21,7 @@ export const routes: Routes = [
           },
           {
             path: 'dishes',
-            component: FormComponent,
+            component: DishComponent,
           },
           {
             path: 'orders',

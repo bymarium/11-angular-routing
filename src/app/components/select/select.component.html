@@ -2,7 +2,7 @@
   <span class="label__text">{{text()}}</span>
   <select class="label__select" [formControlName]="controlName()">
     @for (option of options(); track $index) {
-      <option value="{{option.value}}">{{option.name}}</option>
+      <option class="label__option" value="{{option.value}}">{{option.name}}</option>
     }
   </select>
   <span class="label__error">

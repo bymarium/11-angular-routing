@@ -1,0 +1,23 @@
+<app-modal
+  [open]="isOpen" 
+  (clickClose)="openModal($event)"
+>
+  <app-form 
+    [form]="form" 
+    [title]="title" 
+    [message]="message" 
+    [action]="action" 
+    [controls]="controls"
+    (submit)="submit()"
+  >
+  </app-form>
+</app-modal>
+
+<app-table 
+  [title]="'Platos'" 
+  [data]="dishes" 
+  [columns]="columns" 
+  (openModal)="openModal($event)" 
+  (idDelete)="deleteDishById($event)" 
+  (idUpdate)="updateById($event)"
+></app-table>

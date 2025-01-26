@@ -1,0 +1,29 @@
+@use "../../ui/styles/variables.scss" as variables;
+
+.label {
+  color: variables.$green;
+  font-weight: 600;
+  font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  &__select {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    box-shadow: variables.$box-shadow-lg;
+    padding: 10px;
+  }
+
+  &__option {
+    color: variables.$black;
+    font-size: 16px;
+  }
+
+  &__error {
+    color: variables.$red-dark;
+    font-size: 13px;
+    display: block;
+  }
+}

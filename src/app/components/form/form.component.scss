@@ -32,6 +32,17 @@
     color: variables.$green;
   }
 
+  &__message {
+    font-size: 17px;
+    color: variables.$green;
+    border: 1px solid variables.$green;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #008a8838;
+    margin: 10px;
+  }
+
   &__button {
     @include mixin.letter(variables.$green, variables.$white, 10px, 5px, 20px, bold);
     border: none;
