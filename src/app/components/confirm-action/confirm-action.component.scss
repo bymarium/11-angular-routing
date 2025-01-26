@@ -1,0 +1,47 @@
+@use "../../ui/styles/mixins.scss" as mixin;
+@use "../../ui/styles/variables.scss" as variables;
+
+.confirm {
+  @include mixin.flex(column, center, center, 30px);
+  @include mixin.radius(500px, 25vh, 10px);
+  padding: 20px;
+
+  &__title {
+    font-size: 25px;
+    color: variables.$green;
+    font-weight: 700;
+    text-align: center
+  }
+
+  &__buttons {
+    @include mixin.flex(row, center, center, 20px);
+  }  
+  
+  &__button {
+    border: none;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+
+    &--confirm {
+      background-color: variables.$red-light;
+      color: variables.$white;
+
+      &:hover {
+        background-color: variables.$red-dark;
+        transition: background-color 0.3s ease;
+      }
+    }
+
+    &--cancel {
+      background-color: variables.$blue-light;
+      color: variables.$white;
+
+      &:hover {
+        background-color: variables.$blue-dark;
+        transition: background-color 0.3s ease;
+      }
+    }
+  }
+} 

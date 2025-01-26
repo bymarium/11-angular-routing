@@ -26,8 +26,8 @@ export class ClientComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
 
   public message: string = '';
-  public action: string = '';
-  public title: string = '';
+  public action: string = 'Crear';
+  public title: string = 'Crear Cliente';
 
   private url: string = 'http://localhost:8080/api/clients';
 
@@ -65,17 +65,19 @@ export class ClientComponent implements OnInit {
   }
 
   create(): void {
-    this.action = 'Crear';
-    this.title = 'Crear Cliente';
-
     if (this.form.valid) {
       this.createClient.execute<IResponse>(this.url, this.form.getRawValue() as unknown as IClient)
         .pipe(
           tap(result => {
             this.message = result.message;
             this.getClientsTable();
-            this.action = 'Crear';
-            this.title = 'Crear Cliente';
+          }),
+          delay(2000),
+          finalize(() => {
+            this.message = '';
+            this.getClientsTable();
+            this.form.reset();
+            this.isOpen = false;
           })
         ).subscribe(console.log);
     }

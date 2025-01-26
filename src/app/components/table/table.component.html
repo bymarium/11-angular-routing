@@ -22,7 +22,7 @@
       @for (data of data(); track $index) {
       <tr class="data__table-row">
         <td>
-          <a class="data__table-action data__table-action--trash" (click)="sendDelete(data.id)">
+          <a class="data__table-action data__table-action--trash" (click)="openConfirmation(data.id)">
             <svg>
               <use href="icons.svg#trash"></use>
             </svg>
@@ -40,4 +40,14 @@
       }
     </tbody>
   </table>
+
+  <app-modal
+  [open]="isOpen"
+  (clickClose)="cancelDelete()"
+>
+  <app-confirm-action
+    (clickConfirm)="confirmDelete()"
+    (clickCancel)="cancelDelete()"
+  ></app-confirm-action>
+</app-modal>
 </section>
