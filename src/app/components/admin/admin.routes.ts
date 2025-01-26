@@ -5,6 +5,7 @@ import { FormComponent } from '../form/form.component';
 import { ClientComponent } from '../client/client.component';
 import { MenuComponent } from '../menu/menu.component';
 import { DishComponent } from '../dish/dish.component';
+import { OrderComponent } from '../order/order.component';
 
 export const routes: Routes = [
   {
@@ -25,7 +26,7 @@ export const routes: Routes = [
           },
           {
             path: 'orders',
-            component: FormComponent,
+            component: OrderComponent,
           },
           {
             path: 'clients',
