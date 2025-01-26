@@ -3,6 +3,7 @@ import { LayoutComponent } from '../layout/layout.component';
 import { BodyComponent } from '../body/body.component';
 import { FormComponent } from '../form/form.component';
 import { ClientComponent } from '../client/client.component';
+import { MenuComponent } from '../menu/menu.component';
 
 export const routes: Routes = [
   {
@@ -15,7 +16,7 @@ export const routes: Routes = [
         children: [
           {
             path: 'menus',
-            component: FormComponent,
+            component: MenuComponent,
           },
           {
             path: 'dishes',
@@ -39,7 +40,7 @@ export const routes: Routes = [
   },
   {
     path: 'menus',
-    component: BodyComponent,
+    component: LayoutComponent,
     children: [
       {
         path: '',
