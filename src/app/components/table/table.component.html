@@ -1,7 +1,7 @@
 <section class="data">
   <header class="data__header">
     <h1 class="data__title">Lista de {{title()}}</h1>
-    <a aria-label="Button for add new register" class="data__button" (click)="openForm()">
+    <a aria-label="Button for add new register" role="button" class="data__button" (click)="openForm()">
       <span>Agregar</span>
       <svg>
         <use href="icons.svg#add"></use>
@@ -12,35 +12,35 @@
   <table class="data__table">
     <thead>
       <tr>
-        <th>Acciones</th>
+        <th role="columnheader">Acciones</th>
         @for (column of columns(); track $index) {
-        <th>{{column.header}}</th>
+        <th role="columnheader">{{column.header}}</th>
         @if (column.header === 'Cliente') {
-        <th>Ver</th>
+        <th role="columnheader">Ver</th>
         }
         }
       </tr>
     </thead>
     <tbody>
       @for (data of data(); track $index) {
-      <tr class="data__table-row">
-        <td>
-          <a aria-label="Button for delete register" class="data__table-action data__table-action--trash" (click)="openConfirmation(data.id)">
+      <tr class="data__table-row" role="row">
+        <td role="cell">
+          <a aria-label="Button for delete register" role="button" class="data__table-action data__table-action--trash" (click)="openConfirmation(data.id)">
             <svg aria-hidden="true">
               <use href="icons.svg#trash"></use>
             </svg>
           </a>
-          <a aria-label="Button for update register" class="data__table-action data__table-action--edit" (click)="sendUpdate(data.id)" (click)="openForm()">
+          <a aria-label="Button for update register" role="button" class="data__table-action data__table-action--edit" (click)="sendUpdate(data.id)" (click)="openForm()">
             <svg aria-hidden="true">
               <use href="icons.svg#edit"></use>
             </svg>
           </a>
         </td>
         <ng-container *ngFor="let column of columns(); let i = index">
-          <td>{{data[column.field]}}</td>
+          <td role="cell">{{data[column.field]}}</td>
           @if (column.header === 'Cliente') {
-          <td>
-            <a aria-label="Button for view details" class="data__table-action data__table-action--download" (click)="openDetails($index)">
+          <td role="cell">
+            <a aria-label="Button for view details" role="button" class="data__table-action data__table-action--download" (click)="openDetails($index)">
               <svg aria-hidden="true">
                 <use href="icons.svg#view"></use>
               </svg>
