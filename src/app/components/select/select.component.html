@@ -5,7 +5,7 @@
       <option class="label__option" value="{{option.value}}">{{option.name}}</option>
     }
   </select>
-  <span class="label__error">
+  <span class="label__error" aria-live="polite">
     @if (isInvalid()) {
       {{errorMessage}}
     }
