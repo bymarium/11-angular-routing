@@ -1,6 +1,6 @@
 <li>
-  <a class="aside__item" [routerLink]="link()" [routerLinkActive]="'active'">
-    <svg>
+  <a aria-label="Icono de navegacion" class="aside__item" [routerLink]="link()" [routerLinkActive]="'active'">
+    <svg aria-hidden="true">
       <use [attr.href]="'icons.svg#' + icon()"></use>
     </svg>
     <span>{{title()}}</span>

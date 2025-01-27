@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { IColumn } from './column.interface';
+import { IColumn } from '../../interfaces/column.interface';
 import { ModalComponent } from "../modal/modal.component";
 import { ConfirmActionComponent } from '../confirm-action/confirm-action.component';
 import { NgFor } from '@angular/common';

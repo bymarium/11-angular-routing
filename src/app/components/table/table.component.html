@@ -1,7 +1,7 @@
 <section class="data">
   <header class="data__header">
     <h1 class="data__title">Lista de {{title()}}</h1>
-    <a class="data__button" (click)="openForm()">
+    <a aria-label="Button for add new register" class="data__button" (click)="openForm()">
       <span>Agregar</span>
       <svg>
         <use href="icons.svg#add"></use>
@@ -25,13 +25,13 @@
       @for (data of data(); track $index) {
       <tr class="data__table-row">
         <td>
-          <a class="data__table-action data__table-action--trash" (click)="openConfirmation(data.id)">
-            <svg>
+          <a aria-label="Button for delete register" class="data__table-action data__table-action--trash" (click)="openConfirmation(data.id)">
+            <svg aria-hidden="true">
               <use href="icons.svg#trash"></use>
             </svg>
           </a>
-          <a class="data__table-action data__table-action--edit" (click)="sendUpdate(data.id)" (click)="openForm()">
-            <svg>
+          <a aria-label="Button for update register" class="data__table-action data__table-action--edit" (click)="sendUpdate(data.id)" (click)="openForm()">
+            <svg aria-hidden="true">
               <use href="icons.svg#edit"></use>
             </svg>
           </a>
@@ -40,8 +40,8 @@
           <td>{{data[column.field]}}</td>
           @if (column.header === 'Cliente') {
           <td>
-            <a class="data__table-action data__table-action--download" (click)="openDetails($index)">
-              <svg>
+            <a aria-label="Button for view details" class="data__table-action data__table-action--download" (click)="openDetails($index)">
+              <svg aria-hidden="true">
                 <use href="icons.svg#download"></use>
               </svg>
             </a>
