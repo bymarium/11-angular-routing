@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, registerLocaleData, TitleCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { delay, finalize, forkJoin, map, mergeMap, tap } from 'rxjs';
@@ -16,7 +16,9 @@ import { FormComponent } from '../form/form.component';
 import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
 import { ViewDetailsComponent } from '../view-details/view-details.component';
+import localeEs from '@angular/common/locales/es';
 
+registerLocaleData(localeEs, 'es');
 @Component({
   selector: 'app-order',
   imports: [FormComponent, ModalComponent, TableComponent, ViewDetailsComponent],
@@ -58,7 +60,6 @@ export class OrderComponent implements OnInit {
       quantity: ['', [Validators.required, Validators.min(0)]]
     })])
   });
-
   private clientOptions: IOptions[] = [];
   public dishOptions: IOptions[] = [];
   public controls: IControls[] = [
@@ -120,8 +121,13 @@ export class OrderComponent implements OnInit {
             clientName: this.titleCasePipe.transform(client?.name + ' ' + client?.lastName),
             clientId: client?.id,
             totalPrice: this.currencyPipe.transform(order.totalPrice, 'COP'),
-            date: this.datePipe.transform(order.date),
-            dishesQuantity: order.orderDetails.reduce((acc, orderDetail) => acc + orderDetail.quantity, 0)
+            date: this.datePipe.transform(order.date, 'longDate', undefined,'es'),
+            dishesQuantity: order.orderDetails.reduce((acc, orderDetail) => acc + orderDetail.quantity, 0),
+            orderDetails: order.orderDetails.map(orderDetail => ({
+              ...orderDetail,
+              unitPrice: this.currencyPipe.transform(orderDetail.unitPrice, 'COP'),
+              subTotal: this.currencyPipe.transform(orderDetail.subTotal, 'COP')
+            }))
           }))
         ))),
         mergeMap(result => forkJoin(result)),
@@ -131,7 +137,7 @@ export class OrderComponent implements OnInit {
   public deleteOrderById(orderId: number): void {
     this.deleteOrder.execute<IResponse>(this.url + "/" + orderId)
       .pipe(
-        tap(result => this.getOrdesTable())
+        tap(() => this.getOrdesTable())
       ).subscribe();
   }
 
@@ -182,7 +188,7 @@ export class OrderComponent implements OnInit {
             this.form.reset();
             this.isOpen = false;
           })
-        ).subscribe(console.log);
+        ).subscribe();
     }
   }
 
@@ -200,7 +206,7 @@ export class OrderComponent implements OnInit {
             this.form.reset();
             this.isOpen = false;
           })
-        ).subscribe(console.log);
+        ).subscribe();
     }
   }
 

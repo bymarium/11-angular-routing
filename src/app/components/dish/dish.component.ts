@@ -14,11 +14,12 @@ import { UpdateService } from '../../services/update.service';
 import { FormComponent } from '../form/form.component';
 import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
+import { CapitalizeFirstPipe } from '../../capitalize-first.pipe';
 
 @Component({
   selector: 'app-dish',
   imports: [FormComponent, ModalComponent, TableComponent],
-  providers: [CurrencyPipe, TitleCasePipe],
+  providers: [CurrencyPipe, TitleCasePipe, CapitalizeFirstPipe],
   templateUrl: './dish.component.html',
   styleUrl: './dish.component.scss'
 })
@@ -31,12 +32,13 @@ export class DishComponent implements OnInit {
   private getMenus = inject(GetAllService);
   private currencyPipe = inject(CurrencyPipe);
   private titleCasePipe = inject(TitleCasePipe);
+  private capitalizeFirstPipe = inject(CapitalizeFirstPipe);
   private getMenuName = inject(GetNameService);
 
   public isOpen: boolean = false;
   public message: string = '';
-  public action: string = '';
-  public title: string = '';
+  public action: string = 'Crear';
+  public title: string = 'Crear Plato';
   public dishes: IDishes[] = [];
   public columns = [
     { field: 'name', header: 'Nombre' },
@@ -86,7 +88,15 @@ export class DishComponent implements OnInit {
     this.getDishes.execute<IDishes[]>(this.url)
     .pipe(
       map(result => result.map(dish => this.getMenuName.getMenuNameForDish('http://localhost:8080/api/menus', dish.id).pipe(
-        map(menu => ({ ...dish, menuName: this.titleCasePipe.transform(menu?.name), menuId: menu?.id, price: this.currencyPipe.transform(dish.price, 'COP') }))
+        map(menu => ({ 
+          ...dish, 
+          name: this.capitalizeFirstPipe.transform(dish.name),
+          description: this.capitalizeFirstPipe.transform(dish.description),
+          menuName: this.capitalizeFirstPipe.transform(menu?.name), 
+          menuId: menu?.id, 
+          price: this.currencyPipe.transform(dish.price, 'COP'),
+
+         }))
       ))),
       mergeMap(result => forkJoin(result)),
     ).subscribe(result => this.dishes = result);
@@ -95,7 +105,7 @@ export class DishComponent implements OnInit {
   public deleteDishById(dishId: number): void {
     this.deleteDish.execute<IResponse>(this.url + "/" + dishId)
       .pipe(
-        tap(result => this.getDishesTable())
+        tap(() => this.getDishesTable())
       ).subscribe();
   }
 
@@ -115,7 +125,6 @@ export class DishComponent implements OnInit {
   }
 
   public submit(): void {
-    console.log(this.form.value.id);
     if (this.form.value.id === null) {
       this.create();
     }
@@ -125,19 +134,21 @@ export class DishComponent implements OnInit {
   }
 
   private create(): void {
-    this.action = 'Crear';
-    this.title = 'Crear Plato';
-
     if (this.form.valid) {
       this.createDish.execute<IResponse>(this.url, this.form.getRawValue() as unknown as IDish)
         .pipe(
           tap(result => {
             this.message = result.message;
             this.getDishesTable();
-            this.action = 'Crear';
-            this.title = 'Crear Plato';
+          }),
+          delay(2000),
+          finalize(() => {
+            this.message = '';
+            this.getDishesTable();
+            this.form.reset();
+            this.isOpen = false;
           })
-        ).subscribe(console.log);
+        ).subscribe();
     }
   }
 
@@ -155,7 +166,7 @@ export class DishComponent implements OnInit {
             this.form.reset();
             this.isOpen = false;
           })
-        ).subscribe(console.log);
+        ).subscribe();
     }
   }
 

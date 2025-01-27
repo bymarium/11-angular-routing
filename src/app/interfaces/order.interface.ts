@@ -13,8 +13,8 @@ export interface IOrderDetail {
 export interface IOrderDetails {
   id: number;
   quantity: number;
-  unitPrice: number;
-  subTotal: number;
+  unitPrice: number | string | null;
+  subTotal: number | string | null;
   dish: IDishes;
 }
 
