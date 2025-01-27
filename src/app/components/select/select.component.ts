@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { AbstractControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { IOptions } from '../../interfaces/controls.interface';
 
 @Component({

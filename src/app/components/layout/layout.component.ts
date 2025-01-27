@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AsideComponent } from "../aside/aside.component";
 import { RouterOutlet } from '@angular/router';
+import { AsideComponent } from "../aside/aside.component";
 
 @Component({
   selector: 'app-layout',

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { IMenus } from '../interfaces/menu.interface';
 import { IClients } from '../interfaces/client.interface';
+import { IMenus } from '../interfaces/menu.interface';
 
 @Injectable({
   providedIn: 'root'

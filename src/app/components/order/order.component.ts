@@ -1,20 +1,20 @@
+import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { CreateService } from '../../services/create.service';
-import { GetAllService } from '../../services/get-all.service';
-import { DeleteService } from '../../services/delete.service';
-import { UpdateService } from '../../services/update.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IOrder, IOrders } from '../../interfaces/order.interface';
-import { IControls, IOptions } from '../../interfaces/controls.interface';
-import { IClients } from '../../interfaces/client.interface';
 import { delay, finalize, forkJoin, map, mergeMap, tap } from 'rxjs';
-import { IResponse } from '../../interfaces/response.interface';
+import { IClients } from '../../interfaces/client.interface';
+import { IControls, IOptions } from '../../interfaces/controls.interface';
 import { IDishes } from '../../interfaces/dish.interface';
+import { IOrder, IOrders } from '../../interfaces/order.interface';
+import { IResponse } from '../../interfaces/response.interface';
+import { CreateService } from '../../services/create.service';
+import { DeleteService } from '../../services/delete.service';
+import { GetAllService } from '../../services/get-all.service';
+import { GetNameService } from '../../services/get-name.service';
+import { UpdateService } from '../../services/update.service';
 import { FormComponent } from '../form/form.component';
 import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
-import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
-import { GetNameService } from '../../services/get-name.service';
 import { ViewDetailsComponent } from '../view-details/view-details.component';
 
 @Component({

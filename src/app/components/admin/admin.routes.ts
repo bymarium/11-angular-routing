@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { LayoutComponent } from '../layout/layout.component';
 import { BodyComponent } from '../body/body.component';
 import { ClientComponent } from '../client/client.component';
-import { MenuComponent } from '../menu/menu.component';
 import { DishComponent } from '../dish/dish.component';
+import { LayoutComponent } from '../layout/layout.component';
+import { MenuComponent } from '../menu/menu.component';
 import { OrderComponent } from '../order/order.component';
 
 export const routes: Routes = [

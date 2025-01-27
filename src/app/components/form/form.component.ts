@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputComponent } from '../input/input.component';
-import { IControls, IOptions } from '../../interfaces/controls.interface';
-import { SelectComponent } from '../select/select.component';
 import { CastFormGroupPipe } from '../../cast-form-group.pipe';
+import { IControls, IOptions } from '../../interfaces/controls.interface';
+import { InputComponent } from '../input/input.component';
+import { SelectComponent } from '../select/select.component';
 
 @Component({
   selector: 'app-form',

@@ -2,15 +2,15 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { delay, finalize, tap } from 'rxjs';
 import { IClient, IClients } from '../../interfaces/client.interface';
+import { IControls } from '../../interfaces/controls.interface';
 import { IResponse } from '../../interfaces/response.interface';
 import { CreateService } from '../../services/create.service';
 import { DeleteService } from '../../services/delete.service';
 import { GetAllService } from '../../services/get-all.service';
 import { UpdateService } from '../../services/update.service';
 import { FormComponent } from "../form/form.component";
-import { TableComponent } from '../table/table.component';
-import { IControls } from '../../interfaces/controls.interface';
 import { ModalComponent } from '../modal/modal.component';
+import { TableComponent } from '../table/table.component';
 
 @Component({
   selector: 'app-client',

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ItemComponent } from './item/item.component';
 import { FooterComponent } from '../footer/footer.component';
+import { ItemComponent } from './item/item.component';
 
 @Component({
   selector: 'app-aside',

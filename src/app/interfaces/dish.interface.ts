@@ -1,6 +1,3 @@
-import { Observable } from "rxjs";
-import { IMenu } from "./menu.interface";
-
 export interface IDish {
   name: string;
   description: string;
