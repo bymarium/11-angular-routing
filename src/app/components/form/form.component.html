@@ -1,4 +1,4 @@
-<form [formGroup]="form()" class="form" (ngSubmit)="submit">
+<form aria-label="Form" [formGroup]="form()" class="form" (ngSubmit)="submit">
   <h3 class="form__title">{{title()}}</h3>
   <div class="form__inputs">
     @for (control of controls(); track $index) {
@@ -27,9 +27,9 @@
             [controlName]="'quantity'" 
             [formGroup]="control | castFormGroup"
           ></app-input>
-          <button type="button" class="form__button form__button--cancel" (click)="removeDish(i)">X</button>
+          <button aria-label="Remove dish" type="button" class="form__button form__button--cancel" (click)="removeDish(i)">X</button>
         </div>
-        <button type="button" class="form__button form__button--dish" (click)="addDish()">Añadir plato</button>
+        <button aria-label="Add dish" type="button" class="form__button form__button--dish" (click)="addDish()">Añadir plato</button>
       </fieldset>
   }
   </div>
@@ -37,5 +37,5 @@
   @if (message()) {
   <h4 class="form__message">{{message()}}</h4>
   }
-  <button class="form__button">{{action()}}</button>
+  <button aria-label="Submit" class="form__button">{{action()}}</button>
 </form>
