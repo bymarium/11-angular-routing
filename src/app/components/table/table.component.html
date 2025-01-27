@@ -15,6 +15,9 @@
         <th>Acciones</th>
         @for (column of columns(); track $index) {
         <th>{{column.header}}</th>
+        @if (column.header === 'Cliente') {
+        <th>Ver Detalles</th>
+        }
         }
       </tr>
     </thead>
@@ -33,21 +36,24 @@
             </svg>
           </a>
         </td>
-        @for (column of columns(); track $index) {
-        <td>{{data[column.field]}}</td>
-        }
+        <ng-container *ngFor="let column of columns(); let i = index">
+          <td>{{data[column.field]}}</td>
+          @if (column.header === 'Cliente') {
+          <td>
+            <a class="data__table-action data__table-action--download" (click)="openDetails($index)">
+              <svg>
+                <use href="icons.svg#download"></use>
+              </svg>
+            </a>
+          </td>
+          }
+        </ng-container>
       </tr>
       }
     </tbody>
   </table>
 
-  <app-modal
-  [open]="isOpen"
-  (clickClose)="cancelDelete()"
->
-  <app-confirm-action
-    (clickConfirm)="confirmDelete()"
-    (clickCancel)="cancelDelete()"
-  ></app-confirm-action>
-</app-modal>
+  <app-modal [open]="isOpen" (clickClose)="cancelDelete()">
+    <app-confirm-action (clickConfirm)="confirmDelete()" (clickCancel)="cancelDelete()"></app-confirm-action>
+  </app-modal>
 </section>

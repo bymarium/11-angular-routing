@@ -61,7 +61,7 @@
       width: 120px;
     }
 
-    td:nth-child(1) {
+    td:nth-child(1), td:nth-child(6) {
       @include mixins.flex(row, center, stretch, 10px);
     }
 
@@ -77,6 +77,7 @@
     tr:hover {
       background-color: variables.$green-transparent;
       color: variables.$white;
+      transition: background-color, color 0.3s ease;
     }
   }
 
@@ -94,6 +95,14 @@
 
       &:hover {
         color: variables.$blue-dark;
+      }
+    }
+
+    &--download {
+      color: variables.$green-light;
+
+      &:hover {
+        color: variables.$green;
       }
     }
   }

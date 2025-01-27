@@ -1,3 +1,6 @@
+import { Observable } from "rxjs";
+import { IMenu } from "./menu.interface";
+
 export interface IDish {
   name: string;
   description: string;
@@ -11,5 +14,6 @@ export interface IDishes {
   description: string;
   price: number | string | null;
   type: string;
-  menuId: number;
+  menuId?: number;
+  menuName?: string | null;
 }

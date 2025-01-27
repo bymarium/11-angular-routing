@@ -1,0 +1,66 @@
+@use '../../ui/styles/variables.scss' as variables;
+@use '../../ui/styles/mixins.scss' as mixins;
+
+.details {
+  @include mixins.radius(500px, 60vh, 10px);
+  padding: 50px;
+
+  &__title {
+    font-size: 30px;
+    font-weight: 700;
+    color: variables.$green;
+    text-align: center;
+
+    &--dishes {	
+      font-size: 20px;
+    }
+  }
+
+  &__content {
+    @include mixins.flex(column, flex-start, stretch, 5px);
+    height: 90%;
+    padding: 20px;
+    font-weight: 600;
+    font-size: 18px;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: variables.$green;
+      border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-button {
+      display: none;
+    }
+  }
+
+  &__list {
+    font-size: 18px;
+  }
+
+  &__items {
+    &::after {
+      content: '';
+      width: 500px;
+      margin: 1px;
+    }
+  }
+
+  &__item {
+    @include mixins.flex(row, flex-start, stretch, 0);
+    list-style: none;
+  }
+
+  li,
+  p {
+    @include mixins.flex(row, space-between, center, 0);
+
+    span:nth-child(2) {
+      font-weight: 500;
+    }
+  }
+}

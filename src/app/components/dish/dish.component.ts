@@ -1,6 +1,7 @@
+import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay, finalize, map, of, tap } from 'rxjs';
+import { delay, finalize, forkJoin, map, mergeMap, tap } from 'rxjs';
 import { IControls, IOptions } from '../../interfaces/controls.interface';
 import { IDish, IDishes } from '../../interfaces/dish.interface';
 import { IMenus } from '../../interfaces/menu.interface';
@@ -8,17 +9,16 @@ import { IResponse } from '../../interfaces/response.interface';
 import { CreateService } from '../../services/create.service';
 import { DeleteService } from '../../services/delete.service';
 import { GetAllService } from '../../services/get-all.service';
+import { GetNameService } from '../../services/get-name.service';
 import { UpdateService } from '../../services/update.service';
 import { FormComponent } from '../form/form.component';
 import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
-import { MenuComponent } from '../menu/menu.component';
-import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-dish',
   imports: [FormComponent, ModalComponent, TableComponent],
-  providers: [CurrencyPipe],
+  providers: [CurrencyPipe, TitleCasePipe],
   templateUrl: './dish.component.html',
   styleUrl: './dish.component.scss'
 })
@@ -30,6 +30,8 @@ export class DishComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private getMenus = inject(GetAllService);
   private currencyPipe = inject(CurrencyPipe);
+  private titleCasePipe = inject(TitleCasePipe);
+  private getMenuName = inject(GetNameService);
 
   public isOpen: boolean = false;
   public message: string = '';
@@ -67,13 +69,13 @@ export class DishComponent implements OnInit {
     this.getDishesTable();
 
     this.getMenus.execute<IMenus[]>('http://localhost:8080/api/menus')
-    .pipe(
-      map(result => result.map(menu => ({ value: menu.id, name: menu.name })))
-    )
-    .subscribe(options => {
-      this.menuOptions = options;
-      this.updateMenuOptions();
-    });
+      .pipe(
+        map(result => result.map(menu => ({ value: menu.id, name: menu.name })))
+      )
+      .subscribe(options => {
+        this.menuOptions = options;
+        this.updateMenuOptions();
+      });
   }
 
   public openModal(event: boolean) {
@@ -82,10 +84,12 @@ export class DishComponent implements OnInit {
 
   public getDishesTable(): void {
     this.getDishes.execute<IDishes[]>(this.url)
-      .pipe(
-        map(result => result.map(dish => ({ ...dish, price: this.currencyPipe.transform(dish.price, 'COP') }))),
-        tap(result => this.dishes = result)
-      ).subscribe();
+    .pipe(
+      map(result => result.map(dish => this.getMenuName.getMenuNameForDish('http://localhost:8080/api/menus', dish.id).pipe(
+        map(menu => ({ ...dish, menuName: this.titleCasePipe.transform(menu?.name), menuId: menu?.id, price: this.currencyPipe.transform(dish.price, 'COP') }))
+      ))),
+      mergeMap(result => forkJoin(result)),
+    ).subscribe(result => this.dishes = result);
   }
 
   public deleteDishById(dishId: number): void {
@@ -106,6 +110,7 @@ export class DishComponent implements OnInit {
       name: dish?.name,
       description: dish?.description,
       price: dish?.price,
+      menuId: dish?.menuId
     });
   }
 

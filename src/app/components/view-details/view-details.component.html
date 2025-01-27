@@ -1,0 +1,21 @@
+<div class="details">
+  <h1 class="details__title">Detalles del pedido</h1>
+  <div class="details__content">
+    <p><span>Fecha:</span> <span>{{order()?.date}}</span></p>
+    <p><span>Cliente:</span> <span>{{order()?.clientName}}</span></p>
+    <p><span>Total:</span> <span>{{order()?.totalPrice}}</span></p>
+    <p><span>Cantidad de platos:</span> <span>{{order()?.dishesQuantity}}</span></p>
+    <p class="details__title details__title--dishes">Detalles de platos:</p>
+
+    <ul class="details__list">
+      @for (item of order()?.orderDetails; track $index) {
+      <div class="details__items">
+        <li class="details__item"><span>Plato {{$index + 1}}:</span> <span>{{item.dish.name}}</span></li>
+        <li class="details__item"><span>Precio unitario:</span> <span>{{item.unitPrice}}</span></li>
+        <li class="details__item"><span>Cantidad:</span> <span>{{item.quantity}}</span></li>
+        <li class="details__item"><span>SubTotal:</span> <span>{{item.subTotal}}</span></li>
+      </div>
+      }
+    </ul>
+  </div>
+</div>

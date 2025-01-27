@@ -3,21 +3,23 @@ import { CreateService } from '../../services/create.service';
 import { GetAllService } from '../../services/get-all.service';
 import { DeleteService } from '../../services/delete.service';
 import { UpdateService } from '../../services/update.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IOrder, IOrders } from '../../interfaces/order.interface';
 import { IControls, IOptions } from '../../interfaces/controls.interface';
 import { IClients } from '../../interfaces/client.interface';
-import { delay, finalize, map, tap } from 'rxjs';
+import { delay, finalize, forkJoin, map, mergeMap, tap } from 'rxjs';
 import { IResponse } from '../../interfaces/response.interface';
 import { IDishes } from '../../interfaces/dish.interface';
 import { FormComponent } from '../form/form.component';
 import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
 import { CurrencyPipe, DatePipe, TitleCasePipe } from '@angular/common';
+import { GetNameService } from '../../services/get-name.service';
+import { ViewDetailsComponent } from '../view-details/view-details.component';
 
 @Component({
   selector: 'app-order',
-  imports: [FormComponent, ModalComponent, TableComponent],
+  imports: [FormComponent, ModalComponent, TableComponent, ViewDetailsComponent],
   providers: [CurrencyPipe, DatePipe, TitleCasePipe],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss'
@@ -33,18 +35,20 @@ export class OrderComponent implements OnInit {
   private currencyPipe = inject(CurrencyPipe);
   private datePipe = inject(DatePipe);
   private titleCasePipe = inject(TitleCasePipe);
+  private getClientName = inject(GetNameService);
 
   public isOpen: boolean = false;
+  public isOpenDetails: boolean = false;
   public message: string = '';
   public action: string = 'Crear';
   public title: string = 'Crear Pedido';
   public orders: IOrders[] = [];
+  public order!: IOrders;
   public columns = [
     { field: 'date', header: 'Fecha' },
     { field: 'totalPrice', header: 'Precio Total' },
     { field: 'dishesQuantity', header: 'Cantidad de Platos' },
-    { field: 'client', header: 'Cliente' },
-    { field: 'dowloadDetails', header: 'Descrgar detalles' }
+    { field: 'clientName', header: 'Cliente' }
   ];
   public form: FormGroup = this.formBuilder.group({
     id: [null],
@@ -94,17 +98,34 @@ export class OrderComponent implements OnInit {
     this.isOpen = event;
   }
 
+  public closeDetailsModal() {
+    this.isOpenDetails = false;
+  }
+
+  public openDetailsModal(id: number) {
+    this.isOpenDetails = true;
+    this.order = this.getDetails(id) as IOrders;
+  }
+
+  public getDetails(orderId: number): IOrders | undefined {
+    return this.orders.find((_, i) => i === orderId);
+  }
+
   public getOrdesTable(): void {
     this.getOrders.execute<IOrders[]>(this.url)
       .pipe(
-        map(result => result.map(order => ({
-          ...order, 
-          totalPrice: this.currencyPipe.transform(order.totalPrice, 'COP'), 
-          date: this.datePipe.transform(order.date),
-          dishesQuantity: order.orderDetails.reduce((acc, orderDetail) => acc + orderDetail.quantity, 0)
-        }))),
-        tap(result => this.orders = result)
-      ).subscribe();
+        map(result => result.map(order => this.getClientName.getClientNameForOrder('http://localhost:8080/api/clients', order.id).pipe(
+          map(client => ({
+            ...order,
+            clientName: this.titleCasePipe.transform(client?.name + ' ' + client?.lastName),
+            clientId: client?.id,
+            totalPrice: this.currencyPipe.transform(order.totalPrice, 'COP'),
+            date: this.datePipe.transform(order.date),
+            dishesQuantity: order.orderDetails.reduce((acc, orderDetail) => acc + orderDetail.quantity, 0)
+          }))
+        ))),
+        mergeMap(result => forkJoin(result)),
+      ).subscribe(result => this.orders = result);
   }
 
   public deleteOrderById(orderId: number): void {
@@ -119,6 +140,21 @@ export class OrderComponent implements OnInit {
     this.action = 'Actualizar';
     this.title = 'Actualizar Plato';
     const order = this.orders.find(order => order.id === orderId);
+
+    const orderDetailsArray = this.form.get('orderDetails') as FormArray;
+    orderDetailsArray.clear();
+
+    order?.orderDetails.forEach(orderDetail => {
+      orderDetailsArray.push(this.formBuilder.group({
+        dishId: [orderDetail.dish.id, [Validators.required]],
+        quantity: [orderDetail.quantity, [Validators.required, Validators.min(0)]]
+      }));
+    });
+
+    this.form.patchValue({
+      id: orderId,
+      clientId: order?.clientId
+    });
   }
 
   public submit(): void {

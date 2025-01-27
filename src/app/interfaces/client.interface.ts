@@ -1,3 +1,5 @@
+import { IOrders } from "./order.interface";
+
 export interface IClient {
   name: string;
   lastName: string;
@@ -10,4 +12,5 @@ export interface IClients {
   lastName: string;
   email: string;
   userType: string;
+  orders?: IOrders[];
 }
