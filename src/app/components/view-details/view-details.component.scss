@@ -18,24 +18,12 @@
 
   &__content {
     @include mixins.flex(column, flex-start, stretch, 5px);
+    @include mixins.scrollbar();
     height: 90%;
     padding: 20px;
     font-weight: 600;
     font-size: 18px;
     overflow-y: auto;
-
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: variables.$green;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-button {
-      display: none;
-    }
   }
 
   &__list {

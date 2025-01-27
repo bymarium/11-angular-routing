@@ -1,12 +1,11 @@
 @use "../../ui/styles/variables.scss" as variables;
+@use "../../ui/styles/mixins.scss" as mixins;
 
 .label {
+  @include mixins.flex(column, flex-start, stretch, 10px);
   color: variables.$green;
   font-weight: 600;
   font-size: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 
   &__input {
     border-radius: 5px;

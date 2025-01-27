@@ -1,7 +1,6 @@
 @use "../../ui/styles/mixins.scss" as mixin;
 @use "../../ui/styles/variables.scss" as variables;
 
-
 .form {
   @include mixin.flex(column, center, stretch, 30px);
   @include mixin.radius(500px, 60vh, 10px);
@@ -10,20 +9,8 @@
 
   &__inputs {
     @include mixin.flex(column, flex-start, stretch, 15px);
+    @include mixin.scrollbar();
     overflow-y: scroll;
-
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: variables.$green;
-      border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-button {
-      display: none;
-    }
   }
 
   &__title {
@@ -56,13 +43,9 @@
   }
 
   &__message {
-    font-size: 17px;
-    color: variables.$green;
+    @include mixin.letter(variables.$green-bc, variables.$green, 10px, 5px, 17px, normal);
     border: 1px solid variables.$green;
-    padding: 10px;
-    border-radius: 5px;
     text-align: center;
-    background-color: #008a8838;
     margin: 10px;
   }
 
@@ -75,8 +58,7 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: variables.$green-light;
-      transition: background-color 0.3s ease;
+      @include mixin.hover(variables.$green-light);
     }
 
     &--dish {
@@ -90,8 +72,7 @@
       margin-top: 31px;
 
       &:hover {
-        background-color: variables.$red-light;
-        transition: background-color 0.3s ease;
+        @include mixin.hover(variables.$red-light);
       }
     }
   }

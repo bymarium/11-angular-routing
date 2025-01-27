@@ -16,7 +16,7 @@
         @for (column of columns(); track $index) {
         <th>{{column.header}}</th>
         @if (column.header === 'Cliente') {
-        <th>Ver Detalles</th>
+        <th>Ver</th>
         }
         }
       </tr>
@@ -42,7 +42,7 @@
           <td>
             <a aria-label="Button for view details" class="data__table-action data__table-action--download" (click)="openDetails($index)">
               <svg aria-hidden="true">
-                <use href="icons.svg#download"></use>
+                <use href="icons.svg#view"></use>
               </svg>
             </a>
           </td>

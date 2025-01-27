@@ -18,22 +18,9 @@
 }
 
 .body {
+  @include mixins.scrollbar();
   grid-area: body;
   overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    width: 8px;
-  }
-
-
-  &::-webkit-scrollbar-thumb {
-    background-color: variables.$green; 
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-button {
-    display: none; 
-  }
 }
 
 .footer {

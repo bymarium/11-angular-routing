@@ -29,8 +29,7 @@
       color: variables.$white;
 
       &:hover {
-        background-color: variables.$red-dark;
-        transition: background-color 0.3s ease;
+        @include mixin.hover(variables.$red-dark);
       }
     }
 
@@ -39,8 +38,7 @@
       color: variables.$white;
 
       &:hover {
-        background-color: variables.$blue-dark;
-        transition: background-color 0.3s ease;
+        @include mixin.hover(variables.$blue-dark);
       }
     }
   }
