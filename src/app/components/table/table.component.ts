@@ -3,10 +3,11 @@ import { Component, input, output } from '@angular/core';
 import { IColumn } from '../../interfaces/column.interface';
 import { ConfirmActionComponent } from '../confirm-action/confirm-action.component';
 import { ModalComponent } from "../modal/modal.component";
+import { ButtonComponent } from "../button/button.component";
 
 @Component({
   selector: 'app-table',
-  imports: [ModalComponent, ConfirmActionComponent, NgFor],
+  imports: [ModalComponent, ConfirmActionComponent, NgFor, ButtonComponent],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
