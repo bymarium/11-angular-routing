@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay, finalize, map, tap } from 'rxjs';
+import { catchError, delay, EMPTY, finalize, map, tap } from 'rxjs';
 import { IClient, IClients } from '../../interfaces/client.interface';
 import { IControls } from '../../interfaces/controls.interface';
 import { IResponse } from '../../interfaces/response.interface';
@@ -30,6 +30,7 @@ export class ClientComponent implements OnInit {
 
   public isOpen: boolean = false;
   public message: string = '';
+  public messageColor: string = '';
   public action: string = 'Crear';
   public title: string = 'Crear Cliente';
   public users: IClients[] = [];
@@ -37,7 +38,8 @@ export class ClientComponent implements OnInit {
     {field: 'name', header: 'Nombre'},
     {field: 'lastName', header: 'Apellido'},
     {field: 'email', header: 'Correo'},
-    {field: 'userType', header: 'Tipo de Usuario'}
+    {field: 'userType', header: 'Tipo de Usuario'},
+    {field: 'quantity', header: 'Cantidad de pedidos'}
   ];
   public form: FormGroup = this.formBuilder.group({
     id: [null],
@@ -67,7 +69,8 @@ export class ClientComponent implements OnInit {
         map(result => result.map(client => ({ 
           ...client, 
           name: this.titleCasePipe.transform(client.name),
-          lastName: this.titleCasePipe.transform(client.lastName)
+          lastName: this.titleCasePipe.transform(client.lastName),
+          quantity: client.orders?.length || 0 
          }))),
         tap(result => this.users = result)
       ).subscribe();
@@ -95,7 +98,6 @@ export class ClientComponent implements OnInit {
   }
   
   public submit(): void {
-    console.log(this.form.value.id);
     if (this.form.value.id === null) {
       this.create();
     }
@@ -110,14 +112,24 @@ export class ClientComponent implements OnInit {
         .pipe(
           tap(result => {
             this.message = result.message;
+            this.messageColor = 'green';
             this.getClientsTable();
           }),
           delay(2000),
+          catchError((error) => {
+            this.message = error?.error?.message;
+            this.messageColor = 'red';
+            return EMPTY;
+          }),
           finalize(() => {
-            this.message = '';
-            this.getClientsTable();
-            this.form.reset();
-            this.isOpen = false;
+            setTimeout(() => {
+              if (this.messageColor == "green") {
+                this.message = '';  
+                this.getClientsTable();  
+                this.form.reset();  
+                this.isOpen = false; 
+              }
+            }, 3000);
           })
         ).subscribe();
     }
@@ -127,15 +139,27 @@ export class ClientComponent implements OnInit {
     if (this.form.valid) {
       this.updateClient.execute<IResponse>(this.url + "/" + clientId, this.form.getRawValue() as unknown as IClient)
         .pipe(
-          tap(result => this.message = result.message),
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+          }),
           delay(2000),
+          catchError((error) => {
+            this.message = error?.error?.message;
+            this.messageColor = 'red';
+            return EMPTY;
+          }),
           finalize(() => {
-            this.message = '';
-            this.getClientsTable();
-            this.action = 'Crear';
-            this.title = 'Crear Cliente';
-            this.form.reset();
-            this.isOpen = false;
+            if (this.messageColor == "green") {
+              setTimeout(() => {
+                this.message = '';
+                this.getClientsTable();
+                this.action = 'Crear';
+                this.title = 'Crear Cliente';
+                this.form.reset();
+                this.isOpen = false;
+              }, 3000);
+            }
           })
         ).subscribe();
     }

@@ -13,4 +13,5 @@ export interface IClients {
   email: string;
   userType: string;
   orders?: IOrders[];
+  quantity?: number;
 }

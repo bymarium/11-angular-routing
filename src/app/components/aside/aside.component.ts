@@ -21,14 +21,14 @@ export class AsideComponent {
       title: 'Platos'
     },
     {
-      link: '/orders',
-      icon: 'order',
-      title: 'Pedidos'
-    },
-    {
       link: '/clients',
       icon: 'client',
       title: 'Clientes'
+    },
+    {
+      link: '/orders',
+      icon: 'order',
+      title: 'Pedidos'
     }
   ];
 }

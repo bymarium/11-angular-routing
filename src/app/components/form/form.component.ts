@@ -17,6 +17,7 @@ export class FormComponent {
   public form = input.required<FormGroup>();
   public title = input<string>();
   public message = input<string>();
+  public messageColor = input<string>();
   public action = input.required<string>();
   public controls = input.required<IControls[]>();
   public dishesOptions = input<IOptions[]>();

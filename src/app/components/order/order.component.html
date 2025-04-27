@@ -6,6 +6,7 @@
     [form]="form" 
     [title]="title" 
     [message]="message" 
+    [messageColor]="messageColor"
     [action]="action" 
     [dishesOptions]="dishOptions"
     [controls]="controls"
@@ -20,6 +21,7 @@
 >
   <app-view-details
     [order] = "order"
+    (finishOrder)="finishOrderById($event)"
   ></app-view-details>
 </app-modal>
 

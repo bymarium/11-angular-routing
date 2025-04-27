@@ -10,7 +10,7 @@
         <th role="columnheader">Acciones</th>
         @for (column of columns(); track $index) {
         <th role="columnheader">{{column.header}}</th>
-        @if (column.header === 'Cliente') {
+        @if (column.header === 'Estado') {
         <th role="columnheader">Ver</th>
         }
         }
@@ -25,7 +25,7 @@
         </td>
         <ng-container *ngFor="let column of columns(); let i = index">
           <td role="cell">{{data[column.field]}}</td>
-          @if (column.header === 'Cliente') {
+          @if (column.header === 'Estado') {
           <td role="cell">
             <app-button [svg]="'view'" [text]="'Button for view details'" [class]="'data__table-action data__table-action--download'" (click)="openDetails($index)"></app-button>
           </td>
@@ -35,6 +35,13 @@
       }
     </tbody>
   </table>
+
+
+  @if (data()?.length === 0) {
+  <div class="data__empty">
+    <p>No hay registros</p>
+  </div>
+  }
 
   <app-modal [open]="isOpen" (clickClose)="cancelDelete()">
     <app-confirm-action (clickConfirm)="confirmDelete()" (clickCancel)="cancelDelete()"></app-confirm-action>

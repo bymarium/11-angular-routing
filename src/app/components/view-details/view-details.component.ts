@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { IOrders } from '../../interfaces/order.interface';
 
 @Component({
@@ -9,4 +9,11 @@ import { IOrders } from '../../interfaces/order.interface';
 })
 export class ViewDetailsComponent {
   public order = input<IOrders>();
+  @Output() finishOrder = new EventEmitter<number>();
+
+  public markAsFinished(): void {
+    if (this.order()) {
+      this.finishOrder.emit(this.order()?.id);
+    }
+  }
 }

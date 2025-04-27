@@ -4,6 +4,10 @@
 .details {
   @include mixins.radius(500px, 60vh, 10px);
   padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
 
   &__title {
     font-size: 30px;
@@ -19,7 +23,7 @@
   &__content {
     @include mixins.flex(column, flex-start, stretch, 5px);
     @include mixins.scrollbar();
-    height: 90%;
+    height: 100%;
     padding: 20px;
     font-weight: 600;
     font-size: 18px;
@@ -49,6 +53,19 @@
 
     span:nth-child(2) {
       font-weight: 500;
+    }
+  }
+
+  &__button { 
+    @include mixins.letter(variables.$green, variables.$white, 10px, 5px, 18px, bold);
+    border: none;
+    outline: none;
+    box-shadow: variables.$box-shadow-lg;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      @include mixins.hover(variables.$green-light);
     }
   }
 }

@@ -42,6 +42,7 @@ export class OrderComponent implements OnInit {
   public isOpen: boolean = false;
   public isOpenDetails: boolean = false;
   public message: string = '';
+  public messageColor: string = '';
   public action: string = 'Crear';
   public title: string = 'Crear Pedido';
   public orders: IOrders[] = [];
@@ -50,7 +51,8 @@ export class OrderComponent implements OnInit {
     { field: 'date', header: 'Fecha' },
     { field: 'totalPrice', header: 'Precio Total' },
     { field: 'dishesQuantity', header: 'Cantidad de Platos' },
-    { field: 'clientName', header: 'Cliente' }
+    { field: 'clientName', header: 'Cliente' },
+    { field: 'status', header: 'Estado' }
   ];
   public form: FormGroup = this.formBuilder.group({
     id: [null],
@@ -127,8 +129,9 @@ export class OrderComponent implements OnInit {
               ...orderDetail,
               unitPrice: this.currencyPipe.transform(orderDetail.unitPrice, 'COP'),
               subTotal: this.currencyPipe.transform(orderDetail.subTotal, 'COP')
-            }))
-          }))
+            })),
+            status: order.active ? 'Activo' : 'Inactivo'
+          })),
         ))),
         mergeMap(result => forkJoin(result)),
       ).subscribe(result => this.orders = result);
@@ -179,6 +182,7 @@ export class OrderComponent implements OnInit {
         .pipe(
           tap(result => {
             this.message = result.message;
+            this.messageColor = 'green';
             this.getOrdesTable();
           }),
           delay(2000),
@@ -196,7 +200,11 @@ export class OrderComponent implements OnInit {
     if (this.form.valid) {
       this.updateOrder.execute<IResponse>(this.url + "/" + dishId, this.form.getRawValue() as unknown as IOrder)
         .pipe(
-          tap(result => this.message = result.message),
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+            this.getOrdesTable();
+          }),
           delay(2000),
           finalize(() => {
             this.message = '';
@@ -205,6 +213,31 @@ export class OrderComponent implements OnInit {
             this.title = 'Crear Pedido';
             this.form.reset();
             this.isOpen = false;
+          })
+        ).subscribe();
+    }
+  }
+
+  public finishOrderById(orderId: number): void {
+    const order = this.orders.find(order => order.id === orderId);
+    if (order) {
+      const updatedOrder = {
+        id: orderId,
+        active: false
+      };
+      
+      this.updateOrder.execute<IResponse>(this.url + "/" + orderId, updatedOrder)
+        .pipe(
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+            this.getOrdesTable();
+          }),
+          delay(2000),
+          finalize(() => {
+            this.message = '';
+            this.getOrdesTable();
+            this.closeDetailsModal();
           })
         ).subscribe();
     }

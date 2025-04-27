@@ -35,7 +35,7 @@
   </div>
 
   @if (message()) {
-  <h4 class="form__message">{{message()}}</h4>
+  <h6 class="form__message" [ngClass]="'form__message--' + messageColor()">{{message()}}</h6>
   }
   <button aria-label="Submit" class="form__button">{{action()}}</button>
 </form>

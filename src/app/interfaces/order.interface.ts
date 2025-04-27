@@ -26,4 +26,5 @@ export interface IOrders {
   dishesQuantity?: number;
   clientId?: number;
   clientName?: string | null;
+  active?: boolean | string | null;
 }

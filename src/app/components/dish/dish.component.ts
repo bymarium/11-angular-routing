@@ -1,7 +1,7 @@
 import { CurrencyPipe, TitleCasePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { delay, finalize, forkJoin, map, mergeMap, tap } from 'rxjs';
+import { catchError, delay, EMPTY, finalize, forkJoin, map, mergeMap, tap } from 'rxjs';
 import { IControls, IOptions } from '../../interfaces/controls.interface';
 import { IDish, IDishes } from '../../interfaces/dish.interface';
 import { IMenus } from '../../interfaces/menu.interface';
@@ -31,12 +31,12 @@ export class DishComponent implements OnInit {
   private formBuilder = inject(FormBuilder);
   private getMenus = inject(GetAllService);
   private currencyPipe = inject(CurrencyPipe);
-  private titleCasePipe = inject(TitleCasePipe);
   private capitalizeFirstPipe = inject(CapitalizeFirstPipe);
   private getMenuName = inject(GetNameService);
 
   public isOpen: boolean = false;
   public message: string = '';
+  public messageColor: string = '';
   public action: string = 'Crear';
   public title: string = 'Crear Plato';
   public dishes: IDishes[] = [];
@@ -113,7 +113,12 @@ export class DishComponent implements OnInit {
     this.message = '';
     this.action = 'Actualizar';
     this.title = 'Actualizar Plato';
-    const dish = this.dishes.find(user => user.id === dishId);
+    const dish = this.dishes.find(dish => dish.id === dishId);
+
+    if (typeof dish?.price === 'string') {
+      dish.price = dish.price.replace('COP', '').replace(',', '');
+      dish.price = Number(dish.price) || 0;
+    }
 
     this.form.patchValue({
       id: dishId,
@@ -122,6 +127,8 @@ export class DishComponent implements OnInit {
       price: dish?.price,
       menuId: dish?.menuId
     });
+
+    this.getDishesTable();
   }
 
   public submit(): void {
@@ -139,14 +146,24 @@ export class DishComponent implements OnInit {
         .pipe(
           tap(result => {
             this.message = result.message;
+            this.messageColor = 'green';
             this.getDishesTable();
           }),
           delay(2000),
+          catchError((error) => {
+            this.message = error?.error?.message;
+            this.messageColor = 'red';
+            return EMPTY;
+          }),
           finalize(() => {
-            this.message = '';
-            this.getDishesTable();
-            this.form.reset();
-            this.isOpen = false;
+            if (this.messageColor == "green") {
+              setTimeout(() => {
+                this.message = '';
+                this.getDishesTable();
+                this.form.reset();
+                this.isOpen = false;
+              }, 3000);
+            }
           })
         ).subscribe();
     }
@@ -156,15 +173,27 @@ export class DishComponent implements OnInit {
     if (this.form.valid) {
       this.updateDish.execute<IResponse>(this.url + "/" + dishId, this.form.getRawValue() as unknown as IDish)
         .pipe(
-          tap(result => this.message = result.message),
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+          }),
           delay(2000),
+          catchError((error) => {
+            this.message = error?.error?.message;
+            this.messageColor = 'red';
+            return EMPTY;
+          }),
           finalize(() => {
-            this.message = '';
-            this.getDishesTable();
-            this.action = 'Crear';
-            this.title = 'Crear Plato';
-            this.form.reset();
-            this.isOpen = false;
+            if (this.messageColor == "green") {
+              setTimeout(() => {
+                this.message = '';
+                this.getDishesTable();
+                this.action = 'Crear';
+                this.title = 'Crear Plato';
+                this.form.reset();
+                this.isOpen = false;
+              }, 3000);
+            }
           })
         ).subscribe();
     }

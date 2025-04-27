@@ -30,6 +30,7 @@ export class MenuComponent implements OnInit {
 
   public isOpen: boolean = false;
   public message: string = '';
+  public messageColor: string = '';
   public action: string = 'Crear';
   public title: string = 'Crear Menu';
   public menus: IMenus[] = [];
@@ -105,6 +106,7 @@ export class MenuComponent implements OnInit {
         .pipe(
           tap(result => {
             this.message = result.message;
+            this.messageColor = 'green';
             this.getMenusTable();
           }),
           delay(2000),
@@ -122,7 +124,11 @@ export class MenuComponent implements OnInit {
     if (this.form.valid) {
       this.updateMenu.execute<IResponse>(this.url + "/" + menuId, this.form.getRawValue() as unknown as IMenu)
         .pipe(
-          tap(result => this.message = result.message),
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+            this.getMenusTable();
+          }),
           delay(2000),
           finalize(() => {
             this.message = '';

@@ -43,10 +43,19 @@
   }
 
   &__message {
-    @include mixin.letter(variables.$green-bc, variables.$green, 10px, 5px, 17px, normal);
-    border: 1px solid variables.$green;
     text-align: center;
-    margin: 10px;
+    margin: 0;
+    padding: 0;
+
+    &--green {
+      @include mixin.letter(variables.$green-bc, variables.$green, 10px, 5px, 15px, normal);
+      border: 1px solid variables.$green;
+    }
+    
+    &--red {
+      @include mixin.letter(variables.$red-bc, variables.$red-dark, 10px, 5px, 15px, normal);
+      border: 1px solid variables.$red-dark;
+    }
   }
 
   &__button {

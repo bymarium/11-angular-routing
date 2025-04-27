@@ -5,6 +5,7 @@ import { DishComponent } from '../dish/dish.component';
 import { LayoutComponent } from '../layout/layout.component';
 import { MenuComponent } from '../menu/menu.component';
 import { OrderComponent } from '../order/order.component';
+import { HomeComponent } from '../home/home.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,10 @@ export const routes: Routes = [
         path: '',
         component: BodyComponent,
         children: [
+          {
+            path: '',
+            component: HomeComponent,
+          },
           {
             path: 'menus',
             component: MenuComponent,
