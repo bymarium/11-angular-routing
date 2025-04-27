@@ -1,0 +1,24 @@
+<app-modal
+  [open]="isOpen" 
+  (clickClose)="openModal($event)"
+>
+  <app-form 
+    [form]="form" 
+    [title]="title" 
+    [message]="message" 
+    [messageColor]="messageColor"
+    [action]="action" 
+    [controls]="controls"
+    (submit)="submit()"
+  >
+  </app-form>
+</app-modal>
+
+<app-table 
+  [title]="'Clientes'" 
+  [data]="users" 
+  [columns]="columns" 
+  (openModal)="openModal($event)" 
+  (idDelete)="deleteClientById($event)" 
+  (idUpdate)="updateById($event)"
+></app-table>

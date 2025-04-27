@@ -1,0 +1,72 @@
+@use '../../ui/styles/variables.scss' as variables;
+@use '../../ui/styles/mixins.scss' as mixins;
+
+.data {
+  @include mixins.flex(column, center, center, 10px);
+
+  &__title {
+    text-align: center;
+    font-size: 35px;
+    font-weight: 700;
+  }
+
+  &__header {
+    @include mixins.flex(row, space-between, center, 0);
+    width: 100%;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 18px;
+    text-align: left;
+    margin-bottom: 50px;
+
+    th,
+    td {
+      border: 1px solid variables.$white-20;
+      padding: 8px;
+    }
+
+    th:nth-child(1) {
+      width: 120px;
+    }
+
+    td:nth-child(1) {
+      @include mixins.flex(row, center, stretch, 10px);
+    }
+
+    th {
+      background-color: variables.$green-light;
+      color: variables.$white;
+    }
+
+    tr:nth-child(even) {
+      background-color: variables.$white-10;
+    }
+
+    tr:hover {
+      background-color: variables.$green-transparent;
+      color: variables.$white;
+      transition: background-color, color 0.3s ease;
+    }
+  }
+
+  svg {
+    @include mixins.radius(30px, 30px, 0px);
+    cursor: pointer;
+  }
+
+  &__empty {
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: variables.$green-light;
+    background-color: variables.$white-10;
+    border: 2px solid variables.$white-20;
+    margin-top: -60px;
+  }
+}

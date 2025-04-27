@@ -1,0 +1,36 @@
+@use "../../ui/styles/variables.scss" as variables;
+@use "../../ui/styles/mixins.scss" as mixins;
+
+.aside {
+  @include mixins.flex(column, flex-start, stretch, 0);
+  min-height: 100%;
+  min-width: 100%;
+  padding: 10px;
+  background-color: variables.$green;
+  box-shadow: variables.$box-shadow;
+
+  &__header {
+    @include mixins.flex(row, flex-start, center, 0);
+  }
+
+  &__logo {
+    @include mixins.radius(80px, 80px, 0px);
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 900;
+    text-transform: uppercase;
+    background: variables.$radial-gradient;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__menu {
+    @include mixins.flex(column, flex-start, stretch, 15px);
+    list-style: none;
+    margin-top: 30px;
+    padding: 20px;
+    flex-grow: 1;
+  }
+}

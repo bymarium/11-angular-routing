@@ -1,0 +1,41 @@
+<form aria-label="Form" [formGroup]="form()" class="form" (ngSubmit)="submit">
+  <h3 class="form__title">{{title()}}</h3>
+  <div class="form__inputs">
+    @for (control of controls(); track $index) {
+    @if (control.type === 'select') {
+    <app-select [text]="control.text" [controlName]="control.controlName" [formGroup]="form()"
+      [options]="control.options"></app-select>
+    } @else {
+    <app-input [text]="control.text" [type]="control.type" [controlName]="control.controlName"
+      [formGroup]="form()"></app-input>
+    }
+    }
+
+    @if (dishes && dishes.controls.length) {
+      <fieldset class="form__section" formArrayName="orderDetails">
+        <h3 class="form__title form__title--dishes">Platos</h3>
+        <div class="form__dishes" *ngFor="let control of dishes.controls; let i = index">
+          <app-select 
+            [text]="'Seleccionar plato'" 
+            [controlName]="'dishId'" 
+            [formGroup]="control | castFormGroup"
+            [options]="dishesOptions()"
+          ></app-select>
+          <app-input
+            [text]="'Cantidad'" 
+            [type]="'number'" 
+            [controlName]="'quantity'" 
+            [formGroup]="control | castFormGroup"
+          ></app-input>
+          <button aria-label="Remove dish" type="button" class="form__button form__button--cancel" (click)="removeDish(i)">X</button>
+        </div>
+        <button aria-label="Add dish" type="button" class="form__button form__button--dish" (click)="addDish()">Añadir plato</button>
+      </fieldset>
+  }
+  </div>
+
+  @if (message()) {
+  <h6 class="form__message" [ngClass]="'form__message--' + messageColor()">{{message()}}</h6>
+  }
+  <button aria-label="Submit" class="form__button">{{action()}}</button>
+</form>

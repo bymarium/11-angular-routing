@@ -1,0 +1,27 @@
+@use "../../ui/styles/variables.scss" as variables;
+@use "../../ui/styles/mixins.scss" as mixins;
+
+.label {
+  @include mixins.flex(column, flex-start, stretch, 10px);
+  color: variables.$green;
+  font-weight: 600;
+  font-size: 18px;
+
+  &__input {
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    box-shadow: variables.$box-shadow-lg;
+    padding: 10px;
+
+    &:focus {
+      border: 2px solid variables.$green-transparent;
+    }
+  }
+
+  &__error {
+    color: variables.$red-dark;
+    font-size: 13px;
+    display: block;
+  }
+}

@@ -1,0 +1,88 @@
+@use "../../ui/styles/mixins.scss" as mixin;
+@use "../../ui/styles/variables.scss" as variables;
+
+.form {
+  @include mixin.flex(column, center, stretch, 30px);
+  @include mixin.radius(500px, 60vh, 10px);
+  margin: 0 auto;
+  padding: 50px;
+
+  &__inputs {
+    @include mixin.flex(column, flex-start, stretch, 15px);
+    @include mixin.scrollbar();
+    overflow-y: scroll;
+  }
+
+  &__title {
+    font-size: 30px;
+    font-weight: 700;
+    color: variables.$green;
+
+    &--dishes {
+      font-size: 22px;
+    }
+  }
+
+  &__section {
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
+
+  &__dishes {
+    @include mixin.flex(row, center, stretch, 15px);
+    overflow-x: hidden;
+
+    app-input {
+      width: 100px;
+    }
+
+    app-select {
+      width: 100%;
+    }
+  }
+
+  &__message {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+
+    &--green {
+      @include mixin.letter(variables.$green-bc, variables.$green, 10px, 5px, 15px, normal);
+      border: 1px solid variables.$green;
+    }
+    
+    &--red {
+      @include mixin.letter(variables.$red-bc, variables.$red-dark, 10px, 5px, 15px, normal);
+      border: 1px solid variables.$red-dark;
+    }
+  }
+
+  &__button {
+    @include mixin.letter(variables.$green, variables.$white, 10px, 5px, 20px, bold);
+    border: none;
+    outline: none;
+    box-shadow: variables.$box-shadow-lg;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      @include mixin.hover(variables.$green-light);
+    }
+
+    &--dish {
+      @include mixin.letter(variables.$green, variables.$white, 10px, 5px, 12px, bold);
+    }
+
+    &--cancel {
+      background-color: variables.$red-dark;
+      height: 38px;
+      padding-block: 0;
+      margin-top: 31px;
+
+      &:hover {
+        @include mixin.hover(variables.$red-light);
+      }
+    }
+  }
+}

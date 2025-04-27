@@ -1,0 +1,50 @@
+@use "./variables.scss" as variables;
+
+@mixin radius($width, $height, $radius) {
+  width: $width;
+  height: $height;
+  border-radius: $radius;
+}
+
+@mixin flex($direction: row, $justify-content: flex-start, $align-items: stretch, $gap: 0px) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+  gap: $gap;
+}
+
+@mixin fixed($padding, $z-index) {
+  position: fixed;
+  padding: $padding;
+  z-index: $z-index;
+}
+
+@mixin letter($background-color, $color, $padding, $border-radius, $font-size, $font-weight) {
+  background-color: $background-color;
+  color: $color;
+  padding: $padding;
+  border-radius: $border-radius;
+  font-size: $font-size;
+  font-weight: $font-weight;
+}
+
+@mixin scrollbar($background-color: variables.$green, $width: 8px, $radius: 10px) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $background-color;
+    border-radius: $radius;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+}
+
+@mixin hover($background-color) {
+  background-color: $background-color;
+  transition: background-color 0.3s ease;
+}
