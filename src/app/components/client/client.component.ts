@@ -74,7 +74,7 @@ export class ClientComponent implements OnInit {
          }))),
         tap(result => this.users = result)
       ).subscribe();
-  }
+  } 
 
   public deleteClientById(clientId: number): void {
     this.deleteClient.execute<IResponse>(this.url + "/" + clientId)
