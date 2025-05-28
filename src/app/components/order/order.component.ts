@@ -17,11 +17,12 @@ import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
 import { ViewDetailsComponent } from '../view-details/view-details.component';
 import localeEs from '@angular/common/locales/es';
+import { FiltersComponent } from '../filters/filters.component';
 
 registerLocaleData(localeEs, 'es');
 @Component({
   selector: 'app-order',
-  imports: [FormComponent, ModalComponent, TableComponent, ViewDetailsComponent],
+  imports: [FormComponent, ModalComponent, TableComponent, ViewDetailsComponent, FiltersComponent],
   providers: [CurrencyPipe, DatePipe, TitleCasePipe],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss'
@@ -38,6 +39,9 @@ export class OrderComponent implements OnInit {
   private datePipe = inject(DatePipe);
   private titleCasePipe = inject(TitleCasePipe);
   private getClientName = inject(GetNameService);
+
+  public selectedState: string = '';
+  public states = ["Creada", "Confirmada", "Cancelada", "En preparacion", "Completado", "Entregada"];
 
   public isOpen: boolean = false;
   public isOpenDetails: boolean = false;
@@ -117,7 +121,11 @@ export class OrderComponent implements OnInit {
   public getOrdesTable(): void {
     this.getOrders.execute<IOrders[]>(this.url)
       .pipe(
-        map(result => result.map(order => this.getClientName.getClientNameForOrder('http://localhost:8080/api/clients', order.id).pipe(
+        map(result => result
+          .filter(order => 
+            this.selectedState === '' || order.stateInfo.state === this.selectedState
+          )
+          .map(order => this.getClientName.getClientNameForOrder('http://localhost:8080/api/clients', order.id).pipe(
           map(client => ({
             ...order,
             clientName: this.titleCasePipe.transform(client?.name + ' ' + client?.lastName),
@@ -130,7 +138,7 @@ export class OrderComponent implements OnInit {
               unitPrice: this.currencyPipe.transform(orderDetail.unitPrice, 'COP'),
               subTotal: this.currencyPipe.transform(orderDetail.subTotal, 'COP')
             })),
-            status: order.active ? 'Activo' : 'Inactivo'
+            status: order.stateInfo.state
           })),
         ))),
         mergeMap(result => forkJoin(result)),
@@ -190,6 +198,12 @@ export class OrderComponent implements OnInit {
             this.message = '';
             this.getOrdesTable();
             this.form.reset();
+            const orderDetailsArray = this.form.get('orderDetails') as FormArray;
+            orderDetailsArray.clear();
+            orderDetailsArray.push(this.formBuilder.group({
+              dishId: ['', [Validators.required]],
+              quantity: ['', [Validators.required, Validators.min(0)]]
+            }));
             this.isOpen = false;
           })
         ).subscribe();
@@ -218,12 +232,12 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  public finishOrderById(orderId: number): void {
+  public confirmOrderById(orderId: number): void {
     const order = this.orders.find(order => order.id === orderId);
     if (order) {
       const updatedOrder = {
         id: orderId,
-        active: false
+        state: "CONFIRMED"
       };
       
       this.updateOrder.execute<IResponse>(this.url + "/" + orderId, updatedOrder)
@@ -241,6 +255,111 @@ export class OrderComponent implements OnInit {
           })
         ).subscribe();
     }
+  }
+
+  public cancelOrderById(orderId: number): void {
+    const order = this.orders.find(order => order.id === orderId);
+    if (order) {
+      const updatedOrder = {
+        id: orderId,
+        state: "CANCELED"
+      };
+      
+      this.updateOrder.execute<IResponse>(this.url + "/" + orderId, updatedOrder)
+        .pipe(
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+            this.getOrdesTable();
+          }),
+          delay(2000),
+          finalize(() => {
+            this.message = '';
+            this.getOrdesTable();
+            this.closeDetailsModal();
+          })
+        ).subscribe();
+    }
+  }
+
+  public prepareOrderById(orderId: number): void {
+    const order = this.orders.find(order => order.id === orderId);
+    if (order) {
+      const updatedOrder = {
+        id: orderId,
+        state: "IN_PREPARATION"
+      };
+      
+      this.updateOrder.execute<IResponse>(this.url + "/" + orderId, updatedOrder)
+        .pipe(
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+            this.getOrdesTable();
+          }),
+          delay(2000),
+          finalize(() => {
+            this.message = '';
+            this.getOrdesTable();
+            this.closeDetailsModal();
+          })
+        ).subscribe();
+    }
+  }
+
+  public completeOrderById(orderId: number): void {
+    const order = this.orders.find(order => order.id === orderId);
+    if (order) {
+      const updatedOrder = {
+        id: orderId,
+        state: "COMPLETED"
+      };
+      
+      this.updateOrder.execute<IResponse>(this.url + "/" + orderId, updatedOrder)
+        .pipe(
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+            this.getOrdesTable();
+          }),
+          delay(2000),
+          finalize(() => {
+            this.message = '';
+            this.getOrdesTable();
+            this.closeDetailsModal();
+          })
+        ).subscribe();
+    }
+  }
+
+  public deliverOrderById(orderId: number): void {
+    const order = this.orders.find(order => order.id === orderId);
+    if (order) {
+      const updatedOrder = {
+        id: orderId,
+        state: "DELIVERED"
+      };
+      
+      this.updateOrder.execute<IResponse>(this.url + "/" + orderId, updatedOrder)
+        .pipe(
+          tap(result => {
+            this.message = result.message;
+            this.messageColor = 'green';
+            this.getOrdesTable();
+          }),
+          delay(2000),
+          finalize(() => {
+            this.message = '';
+            this.getOrdesTable();
+            this.closeDetailsModal();
+          })
+        ).subscribe();
+    }
+  }
+
+  public onStateFilter(type: string): void {
+    this.selectedState = type;
+    this.getOrdesTable();
   }
 
   private updateClientOptions() {

@@ -12,10 +12,11 @@ import { FormComponent } from "../form/form.component";
 import { ModalComponent } from '../modal/modal.component';
 import { TableComponent } from '../table/table.component';
 import { TitleCasePipe } from '@angular/common';
+import { FiltersComponent } from '../filters/filters.component';
 
 @Component({
   selector: 'app-client',
-  imports: [FormComponent, ModalComponent, TableComponent],
+  imports: [FormComponent, ModalComponent, TableComponent, FiltersComponent],
   providers: [TitleCasePipe],
   templateUrl: './client.component.html',
   styleUrl: './client.component.scss'
@@ -27,6 +28,9 @@ export class ClientComponent implements OnInit {
   private updateClient = inject(UpdateService);
   private formBuilder = inject(FormBuilder);
   private titleCasePipe = inject(TitleCasePipe);
+
+  public selectedUserType: string = '';
+  public userTypes = ["Bronce", "Plata", "Oro", "Diamante"];
 
   public isOpen: boolean = false;
   public message: string = '';
@@ -66,15 +70,22 @@ export class ClientComponent implements OnInit {
   public getClientsTable(): void {
     this.getClients.execute<IClients[]>(this.url)
       .pipe(
-        map(result => result.map(client => ({ 
-          ...client, 
-          name: this.titleCasePipe.transform(client.name),
-          lastName: this.titleCasePipe.transform(client.lastName),
-          quantity: client.orders?.length || 0 
-         }))),
-        tap(result => this.users = result)
+        map(result => result
+          .filter(client => 
+            this.selectedUserType === '' || client.userType === this.selectedUserType
+          )
+          .map(client => ({ 
+            ...client, 
+            name: this.titleCasePipe.transform(client.name),
+            lastName: this.titleCasePipe.transform(client.lastName),
+            quantity: client.orders?.length || 0 
+          }))
+        ),
+        tap(result => {
+          this.users = result;
+        })
       ).subscribe();
-  } 
+  }  
 
   public deleteClientById(clientId: number): void {
     this.deleteClient.execute<IResponse>(this.url + "/" + clientId)
@@ -163,5 +174,10 @@ export class ClientComponent implements OnInit {
           })
         ).subscribe();
     }
+  }
+
+  public onUserTypeFilter(type: string): void {
+    this.selectedUserType = type;
+    this.getClientsTable();
   }
 }

@@ -5,6 +5,8 @@
     <p><span>Cliente:</span> <span>{{order()?.clientName}}</span></p>
     <p><span>Total:</span> <span>{{order()?.totalPrice}}</span></p>
     <p><span>Cantidad de platos:</span> <span>{{order()?.dishesQuantity}}</span></p>
+    <p><span>Estado:</span> <span>{{order()?.stateInfo?.state}}</span></p>
+    <p><span>Hora del estado:</span> <span>{{order()?.stateInfo?.at | date:'dd/MM/yyyy HH:mm:ss'}}</span></p>
     <p class="details__title details__title--dishes">Detalles de platos:</p>
 
     <ul class="details__list">
@@ -18,5 +20,11 @@
       }
     </ul>
   </div>
-  <button class="details__button" (click)="markAsFinished()">Marcar como pedido finalizado</button>
+  <div class="details__buttons">
+    <button class="details__button details__button--confirm" [disabled]="!isButtonEnabled('confirmar')" (click)="markAsConfirmed()">Confirmar</button>
+    <button class="details__button details__button--cancel" [disabled]="!isButtonEnabled('cancelar')" (click)="markAsCanceled()">Cancelar</button>
+    <button class="details__button details__button--prepare" [disabled]="!isButtonEnabled('preparar')" (click)="markAsPrepared()">Preparar</button>
+    <button class="details__button details__button--complete" [disabled]="!isButtonEnabled('finalizar')" (click)="markAsCompleted()">Finalizar</button>
+    <button class="details__button details__button--deliver" [disabled]="!isButtonEnabled('entregar')" (click)="markAsDelivered()">Entregar</button>
+  </div>
 </div>

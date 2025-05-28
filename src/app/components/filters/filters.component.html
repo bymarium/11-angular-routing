@@ -1,0 +1,7 @@
+<div class="filters">
+  <label for="type">{{ label }}:</label>
+  <select id="type" [(ngModel)]="selected" (change)="onTypeChange()">
+    <option value="">Todos</option>
+    <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+  </select>
+</div>

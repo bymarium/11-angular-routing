@@ -1,17 +1,19 @@
-import { NgFor } from '@angular/common';
-import { Component, input, output } from '@angular/core';
+import { NgClass, NgFor } from '@angular/common';
+import { Component, Input, input, output } from '@angular/core';
 import { IColumn } from '../../interfaces/column.interface';
+import { ButtonComponent } from "../button/button.component";
 import { ConfirmActionComponent } from '../confirm-action/confirm-action.component';
 import { ModalComponent } from "../modal/modal.component";
-import { ButtonComponent } from "../button/button.component";
 
 @Component({
   selector: 'app-table',
-  imports: [ModalComponent, ConfirmActionComponent, NgFor, ButtonComponent],
+  imports: [ModalComponent, ConfirmActionComponent, NgFor, ButtonComponent, NgClass],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss'
 })
 export class TableComponent {
+  @Input() showFilters?: boolean;
+
   public title = input<string>();
   public data = input<any[]>();
   public columns = input<IColumn[]>();

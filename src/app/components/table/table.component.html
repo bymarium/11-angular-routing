@@ -4,6 +4,12 @@
     <app-button [svg]="'add'" [text]="'Button for add new register'" [class]="'data__button'" [span]="'Agregar'" (click)="openForm()"></app-button>
   </header>
 
+  <div class="data__filters">
+    @if (showFilters) {
+      <ng-content></ng-content>
+    }
+  </div>
+
   <table aria-label="Table for registers" class="data__table">
     <thead>
       <tr>
@@ -24,7 +30,13 @@
           <app-button [svg]="'edit'" [text]="'Button for update register'" [class]="'data__table-action data__table-action--edit'" (click)="sendUpdate(data.id)" (click)="openForm()"></app-button>
         </td>
         <ng-container *ngFor="let column of columns(); let i = index">
-          <td role="cell">{{data[column.field]}}</td>
+          <td role="cell" class="text-center">
+            @if (column.header === 'Estado') {
+              <span [ngClass]="{'status-badge': true, 'status-created': data[column.field] === 'Creada', 'status-confirmed': data[column.field] === 'Confirmada', 'status-canceled': data[column.field] === 'Cancelada', 'status-preparation': data[column.field] === 'En preparacion', 'status-completed': data[column.field] === 'Completado', 'status-delivered': data[column.field] === 'Entregada'}">{{data[column.field]}}</span>
+            } @else {
+              {{data[column.field]}}
+            }
+          </td>
           @if (column.header === 'Estado') {
           <td role="cell">
             <app-button [svg]="'view'" [text]="'Button for view details'" [class]="'data__table-action data__table-action--download'" (click)="openDetails($index)"></app-button>
