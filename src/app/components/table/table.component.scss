@@ -4,6 +4,12 @@
 .data {
   @include mixins.flex(column, center, center, 10px);
 
+  &__filters {
+    align-self: flex-start;
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   &__title {
     text-align: center;
     font-size: 35px;
@@ -69,4 +75,42 @@
     border: 2px solid variables.$white-20;
     margin-top: -60px;
   }
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.status-confirmed {
+  color: #fff;
+  background-color: #2196F3;
+}
+
+.status-canceled {
+  color: #fff;
+  background-color: #F44336;
+}
+
+.status-preparation {
+  color: #fff;
+  background-color: #FF9800;
+}
+
+.status-completed {
+  color: #fff;
+  background-color: #4CAF50;
+}
+
+.status-delivered {
+  color: #fff;
+  background-color: 	#9C27B0;
+}
+
+.status-created {
+  color: #fff;
+  background-color: #7a7a7a;
 }

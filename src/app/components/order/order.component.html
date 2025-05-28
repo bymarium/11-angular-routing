@@ -21,7 +21,11 @@
 >
   <app-view-details
     [order] = "order"
-    (finishOrder)="finishOrderById($event)"
+    (confirmOrder)="confirmOrderById($event)"
+    (cancelOrder)="cancelOrderById($event)"
+    (prepareOrder)="prepareOrderById($event)"
+    (completeOrder)="completeOrderById($event)"
+    (deliverOrder)="deliverOrderById($event)"
   ></app-view-details>
 </app-modal>
 
@@ -33,4 +37,11 @@
   (openDetailsModal)="openDetailsModal($event)"
   (idDelete)="deleteOrderById($event)" 
   (idUpdate)="updateById($event)"
-></app-table>
+  [showFilters]="true"
+>
+  <app-filters
+  [types]="states"
+  [label]="'Filtrar por tipo de estado'"
+  (typeChange)="onStateFilter($event)"
+  ></app-filters>
+</app-table>

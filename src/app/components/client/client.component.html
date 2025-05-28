@@ -21,4 +21,11 @@
   (openModal)="openModal($event)" 
   (idDelete)="deleteClientById($event)" 
   (idUpdate)="updateById($event)"
-></app-table>
+  [showFilters]="true"
+>
+  <app-filters
+    [types]="userTypes"
+    [label]="'Filtrar por tipo de usuario'"
+    (typeChange)="onUserTypeFilter($event)"
+  ></app-filters>
+</app-table>

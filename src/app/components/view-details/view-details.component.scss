@@ -2,7 +2,7 @@
 @use '../../ui/styles/mixins.scss' as mixins;
 
 .details {
-  @include mixins.radius(500px, 60vh, 10px);
+  @include mixins.radius(600px, 65vh, 10px);
   padding: 50px;
   display: flex;
   flex-direction: column;
@@ -16,6 +16,7 @@
     text-align: center;
 
     &--dishes {	
+      margin-top: 20px;
       font-size: 20px;
     }
   }
@@ -24,7 +25,7 @@
     @include mixins.flex(column, flex-start, stretch, 5px);
     @include mixins.scrollbar();
     height: 100%;
-    padding: 20px;
+    padding: 20px 5px;
     font-weight: 600;
     font-size: 18px;
     overflow-y: auto;
@@ -56,16 +57,45 @@
     }
   }
 
+  &__buttons {
+    @include mixins.flex(row, space-between, center, 0);
+    margin-top: 10px;
+    padding: 5px;
+  }
+
   &__button { 
-    @include mixins.letter(variables.$green, variables.$white, 10px, 5px, 18px, bold);
+    @include mixins.letter(variables.$green, variables.$white, 10px, 6px, 16px, bold);
     border: none;
     outline: none;
     box-shadow: variables.$box-shadow-lg;
     cursor: pointer;
     transition: all 0.3s ease;
 
-    &:hover {
-      @include mixins.hover(variables.$green-light);
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+      filter: grayscale(70%);
+    }
+
+    &--confirm {
+      background-color: #2196F3;
+    }
+
+    &--cancel {
+      background-color: #F44336;
+    }
+
+    &--prepare {
+      background-color: #FF9800;
+    }
+
+    &--complete {
+      background-color: #4CAF50;
+    }
+
+    &--deliver {
+      background-color: #9C27B0;
     }
   }
 }
